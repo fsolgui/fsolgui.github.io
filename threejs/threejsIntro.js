@@ -44,6 +44,7 @@ function loadScene(){
     var geoEsfera = new THREE.SphereGeometry(0.8, 20, 20);
     var esfera = new THREE.Mesh(geoEsfera, matCubo);
     
+    // Añadir esfera y cubo como objetos separados
     //scene.add(esfera);
     //scene.add(cubo);
 
@@ -51,12 +52,18 @@ function loadScene(){
     esferaCubo.add(esfera);
     esferaCubo.add(cubo);
 
+    // Añadir esfera y cubo a la escena como un solo objeto
     scene.add(esferaCubo)
+
+    // Add axes
     scene.add(new THREE.AxesHelper(3));
 }
 
-function update(){
-
+function update(){  
+    
+    // Añadir animación a esfera y cubo a la vez
+    angulo += 0.01;
+    esferaCubo.rotation.y = angulo;
 }
 
 function render(){
