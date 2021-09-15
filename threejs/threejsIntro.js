@@ -38,14 +38,18 @@ function loadScene(){
     
     var geoCubo = new THREE.BoxGeometry(2,2,2);
     var matCubo = new THREE.MeshBasicMaterial({ color: 'yellow', 
-                                                wireframe: 'true'});
+                                                wireframe: true});
     var cubo = new THREE.Mesh(geoCubo, matCubo);
 
     var geoEsfera = new THREE.SphereGeometry(0.8, 20, 20);
     var esfera = new THREE.Mesh(geoEsfera, matCubo);
     
-    scene.add(esfera);
-    scene.add(cubo);
+    //scene.add(esfera);
+    //scene.add(cubo);
+
+    esferaCubo = THREE.Object3D();
+    esferaCubo.add(Esfera);
+    esferaCubo.add(cubo);
 }
 
 function update(){
