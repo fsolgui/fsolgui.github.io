@@ -37,8 +37,7 @@ function init(){
 function loadScene(){
     
     var geoCubo = new THREE.BoxGeometry(2,2,2);
-    var matCubo = new THREE.MeshBasicMaterial({ color: 'yellow', 
-                                                wireframe: true});
+    var matCubo = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true});
     var cubo = new THREE.Mesh(geoCubo, matCubo);
 
     var geoEsfera = new THREE.SphereGeometry(0.8, 20, 20);
@@ -57,6 +56,16 @@ function loadScene(){
 
     // Add axes
     scene.add(new THREE.AxesHelper(3));
+
+    var loader = new THREE.ObjectLoader();
+    loader.load('models/soldado/soldado.json', function (objeto){ cubo.add(objeto)})
+
+    // Suelo
+    var geoSuelo = new THREE.PlainGeometry(10,10,10,10);
+    var suelo = new THREE.Mesh(geoSuelo, matCubo);
+    suelo.rotation.x = Math.PI / 2;
+    scene.add(suelo);
+
 }
 
 function update(){  
