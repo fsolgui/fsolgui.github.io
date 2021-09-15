@@ -48,7 +48,7 @@ function loadScene(){
     //scene.add(esfera);
     //scene.add(cubo);
 
-    var esferaCubo = THREE.Object3D();
+    var esferaCubo = new THREE.Object3D();
     esferaCubo.add(esfera);
     esferaCubo.add(cubo);
 
