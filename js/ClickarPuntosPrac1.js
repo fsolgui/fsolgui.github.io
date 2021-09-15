@@ -1,5 +1,10 @@
 /*
-    Prac1. Clickar puntos con webgl
+    Prac1. Clickar puntos con webgl, poner su color en función de la distancia al centro y 
+    unir los puntos mediantes líneas. 
+    + En caso de realizar el cálculo de color en el shader de colores el color de la linea
+    resultará en una interpolación de los colores de ambos puntos.
+    + En caso de realizar el cálculo de color en el shader de fragmentos, la línea variará
+    de color según la distancia al centro en cada punto de la misma.
 */
 
 // Shader de vertices //
