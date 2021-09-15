@@ -110,9 +110,15 @@ function click(evento, gl, canvas){
     gl.clear(gl.COLOR_BUFFER_BIT); // Esto no lo acabo de entender
 
     // Rellena el BufferObject con las coordenadas y lo manda a proceso
-    gl.bufferData(gl.ARRAY_BUFFER, puntos, gl.STATIC_DRAW);
     // Indicamos que el dibujo es estático
-    gl.drawArrays(gl.POINTS, 0, puntos.length/3) 
+    gl.bufferData(gl.ARRAY_BUFFER, puntos, gl.STATIC_DRAW);
+    
+    
     // Dividimos entre tres porque cada tres elementos del vector se forma un punto
     // Usamos la directiva gl.Points para indicar que son puntos
+    gl.drawArrays(gl.POINTS, 0, puntos.length/3) 
+    
+    // Dibujamos la línea
+    gl.drawArrays(gl.LINE_STRIP, 0, puntos.length/3);
+
 }
