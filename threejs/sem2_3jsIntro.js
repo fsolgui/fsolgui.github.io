@@ -47,7 +47,7 @@ function loadScene(){
     //scene.add(esfera);
     //scene.add(cubo);
 
-    var esferaCubo = new THREE.Object3D();
+    esferaCubo = new THREE.Object3D();
     esferaCubo.add(esfera);
     esferaCubo.add(cubo);
 
@@ -61,7 +61,7 @@ function loadScene(){
     loader.load('models/soldado/soldado.json', function (objeto){ cubo.add(objeto)})
 
     // Suelo
-    var geoSuelo = new THREE.PlainGeometry(10,10,10,10);
+    var geoSuelo = new THREE.PlaneGeometry(10,10,10,10);
     var suelo = new THREE.Mesh(geoSuelo, matCubo);
     suelo.rotation.x = Math.PI / 2;
     scene.add(suelo);
@@ -79,5 +79,4 @@ function render(){
     requestAnimationFrame(render);
     update();
     renderer.render(scene, camera);
-
 }
