@@ -17,10 +17,10 @@ referencia afín */
 
 // Shader de fragmentos //
 var FSHADER_SOURCE = `
-    uniform highp vec3 color;                \n
-    void main(){                            \n
-        gl_FragColor = vec4(color, 1.0);    \n
-    }                                       \n`
+    uniform highp vec3 color = (0.2, 0.0, 0.0); \n
+    void main(){                                \n
+        gl_FragColor = vec4(color, 1.0);        \n
+    }                                           \n`
 
 /* La variable color es uniform, lo que quiere decir que será compartida por todos
 los fragmentos que entren en el shader */
