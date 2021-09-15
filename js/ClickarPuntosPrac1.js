@@ -9,7 +9,7 @@ var VSHADER_SOURCE = `
     void main(){                            \n
         gl_Position = vec4(position, 1.0);  \n
         gl_PointSize = 5.0;                 \n
-        float distance = sqrt(posicion[0]*posicion[0] + posicion[1]*posicion[1]);    \n
+        float distance = sqrt(position[0]*position[0] + position[1]*position[1]);    \n
         color = vec3(1.0-distance, 1.0-distance, 1.0-distance); \n
     }                                       \n`
 
