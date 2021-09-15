@@ -6,11 +6,11 @@
 var VSHADER_SOURCE = `
     attribute vec3 position;                \n
     varying highp vec3 color;               \n
-    float distance = sqrt(posicion[0]*posicion[0] + posicion[1]*posicion[1]);    \n
-    color = vec3(1.0-distance, 1.0-distance, 1.0-distance); \n
     void main(){                            \n
         gl_Position = vec4(position, 1.0);  \n
-        gl_PointSize = 5.0;                \n
+        gl_PointSize = 5.0;                 \n
+        float distance = sqrt(posicion[0]*posicion[0] + posicion[1]*posicion[1]);    \n
+        color = vec3(1.0-distance, 1.0-distance, 1.0-distance); \n
     }                                       \n`
 
 /* La variable position es un attribute, lo que quiere decir que será único para
