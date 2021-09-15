@@ -17,7 +17,8 @@ referencia afín */
 
 // Shader de fragmentos //
 var FSHADER_SOURCE = `
-    uniform highp vec3 color = vec3(1.0, 0.0, 0.0); \n
+    uniform highp vec3 color;                       \n
+    color = vec3(1.0, 0.0, 0.0);                     \n
     void main(){                                    \n
         gl_FragColor = vec4(color, 1.0);            \n
     }                                               \n`
