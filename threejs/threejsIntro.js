@@ -48,9 +48,10 @@ function loadScene(){
     //scene.add(cubo);
 
     esferaCubo = THREE.Object3D();
-    esferaCubo.add(Esfera);
+    esferaCubo.add(esfera);
     esferaCubo.add(cubo);
 
+    scene.add(esferaCubo)
     scene.add(new THREE.AxesHelper(3));
 }
 
