@@ -29,13 +29,23 @@ function init(){
     // Camara
     camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-    camera.positition.set(0.5, 2, 7);
+    camera.position.set(0.5, 2, 7);
     // La camara apunta al origen de coordenadas
     camera.lookAt(new THREE.Vector3(0,0,0));
 }
 
 function loadScene(){
+    
+    var geoCubo = new THREE.BoxGeometry(2,2,2);
+    var matCubo = new THREE.MeshBasicMaterial({ color: 'yellow', 
+                                                wireframe: 'true'});
+    var cubo = new THREE.Mesh(geoCubo, matCubo);
 
+    var geoEsfera = new THREE.SphereGeometry(0.8, 20, 20);
+    var esfera = new THREE.Mesh(geoEsfera, matCubo);
+    
+    scene.add(esfera);
+    scene.add(cubo);
 }
 
 function update(){
