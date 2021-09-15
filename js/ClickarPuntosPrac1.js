@@ -5,9 +5,12 @@
 // Shader de vertices //
 var VSHADER_SOURCE = `
     attribute vec3 position;                \n
+    varying highp vec3 color;               \n
+    float distance = sqrt(posicion[0]*posicion[0] + posicion[1]*posicion[1]);    \n
+    color = vec3(1.0-distance, 1.0-distance, 1.0-distance); \n
     void main(){                            \n
         gl_Position = vec4(position, 1.0);  \n
-        gl_PointSize = 10.0;                \n
+        gl_PointSize = 5.0;                \n
     }                                       \n`
 
 /* La variable position es un attribute, lo que quiere decir que será único para
@@ -17,8 +20,7 @@ referencia afín */
 
 // Shader de fragmentos //
 var FSHADER_SOURCE = `
-    uniform highp vec3 color;                       \n
-    color = vec3(1.0, 0.0, 0.0);                     \n
+    varying highp vec3 color;                       \n
     void main(){                                    \n
         gl_FragColor = vec4(color, 1.0);            \n
     }                                               \n`
