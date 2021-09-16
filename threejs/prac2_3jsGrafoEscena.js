@@ -19,7 +19,7 @@ function init(){
     // Motor
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor( new THREE.Color(0x0000AA));
+    renderer.setClearColor( new THREE.Color(0xFFFFFF));
     // Añadimos el canvas del renderer al container del html
     document.getElementById('container').appendChild(renderer.domElement);
 
