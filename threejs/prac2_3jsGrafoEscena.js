@@ -29,7 +29,7 @@ function init(){
     // Camara
     camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-    camera.position.set(250, 250, 250);
+    camera.position.set(200, 290, 200);
     // La camara apunta al origen de coordenadas
     camera.lookAt(new THREE.Vector3(0,0,0));
 }
@@ -37,7 +37,7 @@ function init(){
 function loadScene(){
     
     // Añadimos los ejes auxiliares
-    scene.add(new THREE.AxesHelper(3));
+    scene.add(new THREE.AxesHelper(200));
     
     // Creamos un material común a todas los objetos de la escena
     var material = new THREE.MeshBasicMaterial({color: 'red', wireframe: true});
@@ -121,6 +121,55 @@ function loadScene(){
     antebrazo.add(conexionesCilindroCodoMano);
     // Añadimos el antebrazo al robot
     robot.add(antebrazo);
+
+
+    // Creación de la pinza izquierda
+    var pinzaIzqGeo = new THREE.Geometry();
+    var coordenadasPinzaIzq = [
+        0, 0, 0,    //A
+        19,0, 0,    //B
+        19,20,0,    //C
+        0,20,0,     //D
+        0, 0,-4,    //E
+        19,0,-4,    //F
+        19,20,-4,   //G
+        0,20,-4,    //H
+        38,4,0,     //I
+        38,4,-2,    //J
+        38,16,-2,   //K
+        38,16,0,    //L
+    ];
+
+    var indicesPinzaIzq = [
+        0,1,2,
+        1,2,3,
+        0,3,4,
+        2,3,7,
+        1,5,4,
+        4,6,7,
+        1,9,5,
+        8,9,10,
+        5,10,6,
+        1,8,11,
+        2,11,6      
+    ];
+
+    // Construye vertices y los inserta en la pinzaIzq
+    for(var i=0; i<coordenadasPinzaIzq.length; i+=3) {
+        var vertice = new THREE.Vector3(coordenadasPinzaIzq[i], coordenadasPinzaIzq[i+1], coordenadasPinzaIzq[i+2]);
+        pinzaIzqGeo.vertices.push(vertice);
+    }
+    
+    // Construye caras y las inserta en la pinzaIzq
+    for(var i=0; i<indicesPinzaIzq.length; i+=3){
+        var triangulo = new THREE.Face3(indicesPinzaIzq[i],indicesPinzaIzq[i+1],indicesPinzaIzq[i+2]);
+        pinzaIzqGeo.faces.push(triangulo);
+    }
+
+    // Creamos el mesh y lo añadimos al robot
+    var pinzaIzq = new THREE.Mesh(pinzaIzqGeo, material);
+    pinzaIzq.position.set(-15,220,10);
+    robot.add(pinzaIzq);
 
     // Añadimos el robot a la escena
     scene.add(robot);
