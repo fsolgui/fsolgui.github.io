@@ -46,7 +46,7 @@ function loadScene(){
     var geometriaSuelo = new THREE.PlaneGeometry(1000,1000,10,10);
     var suelo = new THREE.Mesh(geometriaSuelo, material);
     suelo.rotation.x = -Math.PI / 2;
-    //scene.add(suelo);
+    scene.add(suelo);
     
     // Creamos un objeto que contendrá todas las partes del robot
     robot = new THREE.Object3D();
