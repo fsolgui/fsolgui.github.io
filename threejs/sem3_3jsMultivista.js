@@ -59,7 +59,7 @@ function loadScene(){
 
     var loader = new THREE.ObjectLoader();
     loader.load('models/soldado/soldado.json', function (objeto){ cubo.add(objeto); objeto.position.set(0,0,2)})
-
+    scene.add(loader)
     // Suelo
     var geoSuelo = new THREE.PlaneGeometry(10,10,10,10);
     var suelo = new THREE.Mesh(geoSuelo, matCubo);
