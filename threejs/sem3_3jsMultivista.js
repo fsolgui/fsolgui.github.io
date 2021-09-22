@@ -124,9 +124,6 @@ function rotateCube(event){
 
 function loadScene(){
     
-    // Add axes
-    scene.add(new THREE.AxesHelper(3));
-    
     // Crear geometria del cubo y su material
     var geoCubo = new THREE.BoxGeometry(0.9,0.9,0.9);
     var material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true});
@@ -181,14 +178,14 @@ function updateAscpectRatio(){
     // Para cámaras adicionales
     if(ar > 1){
         alzado.left = perfil.left = planta.left = -L*ar;
-        alzado.right = perfil.right = planta.left = L*ar;
-        alzado.bottom = perfil.bottom = planta.left = -L;
-        alzado.top = perfil.top = planta.left = L;
+        alzado.right = perfil.right = planta.right = L*ar;
+        alzado.bottom = perfil.bottom = planta.bottom = -L;
+        alzado.top = perfil.top = planta.top = L;
     }else{
         alzado.left = perfil.left = planta.left = -L;
-        alzado.right = perfil.right = planta.left = L;
-        alzado.bottom = perfil.bottom = planta.left = -L/ar;
-        alzado.top = perfil.top = planta.left = L/ar;
+        alzado.right = perfil.right = planta.right = L;
+        alzado.bottom = perfil.bottom = planta.bottom = -L/ar;
+        alzado.top = perfil.top = planta.top = L/ar;
     }
 
     alzado.updateProjectionMatrix();
