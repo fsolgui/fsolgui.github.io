@@ -2,6 +2,7 @@
 
 // Objetos estándar
 var renderer, camera, scene;
+var cameraControls;
 
 // Globales
 var esferaCubo, angulo = 0;
@@ -28,17 +29,30 @@ function init(){
 
     // Camara
     camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    camera.position.set(0.5, 2, 4);
 
-    camera.position.set(0.5, 2, 7);
-    // La camara apunta al origen de coordenadas
-    camera.lookAt(new THREE.Vector3(0,0,0));
+    // Añadimos cameraControls
+    cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
+    cameraControls.target.set(0,0,0)
 }
 
 function loadScene(){
     
-    var geoCubo = new THREE.BoxGeometry(2,2,2);
-    var matCubo = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true});
-    var cubo = new THREE.Mesh(geoCubo, matCubo);
+    // Add axes
+    scene.add(new THREE.AxesHelper(3));
+    
+    // Crear geometria del cubo y su material
+    var geoCubo = new THREE.BoxGeometry(0.9,0.9,0.9);
+    var material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true});
+    
+    // Creamos 5 cubos en linea en el eje x
+    for(var i = 0; i<5; i++){
+        var cubo = new THREE.Mesh(geoCubo, material);
+        cubo.position.set(-2+i, 0, 0);
+        scene.add(cubo);
+    }
+
+    /*
 
     var geoEsfera = new THREE.SphereGeometry(0.8, 20, 20);
     var esfera = new THREE.Mesh(geoEsfera, matCubo);
@@ -54,25 +68,24 @@ function loadScene(){
     // Añadir esfera y cubo a la escena como un solo objeto
     scene.add(esferaCubo)
 
-    // Add axes
-    scene.add(new THREE.AxesHelper(3));
-
-    var loader = new THREE.ObjectLoader();
-    loader.load('../models/soldado/soldado.json', function (objeto){ cubo.add(objeto); objeto.position.set(0,0,2)})
-    scene.add(loader)
+    
     // Suelo
     var geoSuelo = new THREE.PlaneGeometry(10,10,10,10);
     var suelo = new THREE.Mesh(geoSuelo, matCubo);
     suelo.rotation.x = Math.PI / 2;
     scene.add(suelo);
+    */
 
+    var loader = new THREE.ObjectLoader();
+    loader.load('../models/soldado/soldado.json', function (objeto){ cubo.add(objeto); objeto.position.set(0,0,2)})
+    scene.add(loader)
 }
 
 function update(){  
     
     // Añadir animación a esfera y cubo a la vez
-    angulo += 0.01;
-    esferaCubo.rotation.y = angulo;
+    //angulo += 0.01;
+    //esferaCubo.rotation.y = angulo;
 }
 
 function render(){
