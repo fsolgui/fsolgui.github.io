@@ -186,8 +186,8 @@ function loadScene(){
     var loader = new THREE.GLTFLoader();
     loader.load("../models/laptop_icon/scene.gltf", function(obj){
         obj.scene.rotation.y = -Math.PI / 2;
-        obj.scene.scale.set(0.1,0.1,0.1);
-        obj.scene.position.set(0,22,0);
+        obj.scene.scale.set(0.25,0.25,0.25);
+        obj.scene.position.set(-4,22,0);
         mesitaCajon.add(obj.scene);});
     scene.add(mesitaCajon);
 }
