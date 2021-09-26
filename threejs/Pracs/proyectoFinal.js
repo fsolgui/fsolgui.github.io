@@ -141,12 +141,11 @@ function loadScene(){
     // Creamos la mesa
     var mesa = new THREE.Object3D();
     // Creamos el plano supererior de la mesa
-    var geometriaPlanoMesa = new THREE.PlaneGeometry(80,50,10,10);
+    var geometriaPlanoMesa = new THREE.BoxGeometry(80,2,50);
     var planoMesa = new THREE.Mesh(geometriaPlanoMesa, material);
-    planoMesa.rotation.x = -Math.PI / 2;
     mesa.add(planoMesa);
     // Creamos las patas de la mesa
-    var geometriaPatasMesa = new THREE.BoxGeometry(2,40,2);
+    var geometriaPatasMesa = new THREE.BoxGeometry(2,42,2);
     var pata1 = new THREE.Mesh(geometriaPatasMesa, material);
     var pata2 = pata1.clone();
     var pata3 = pata1.clone();
@@ -166,10 +165,10 @@ function loadScene(){
     // Añadimos un monitor a la mesa
     var loader = new THREE.GLTFLoader();
     loader.load("../models/monitor/scene.gltf", function(obj){
-        obj.scene.rotation.y = -Math.PI / 2;
-        //obj.scene.scale.set(0.20,0.16,0.20);
-        obj.scene.position.set(40,40,20);
-        mesa.add(obj.scene);});
+        obj.scene.scale.set(10,10,10);
+        mesa.add(obj.scene);
+        obj.scene.position.set(-25,3,10);
+        obj.scene.rotation.y = 7/8*Math.PI;});
     scene.add(mesa);
 
     // Creamos una mesita-cajonera
@@ -194,8 +193,8 @@ function loadScene(){
     loader.load("../models/laptop_icon/scene.gltf", function(obj){
         obj.scene.rotation.y = -Math.PI / 2;
         obj.scene.scale.set(0.20,0.16,0.20);
-        obj.scene.position.set(-2,22,0);
-        mesitaCajon.add(obj.scene);});
+        mesitaCajon.add(obj.scene);
+        obj.scene.position.set(-2,22,0)});
     scene.add(mesitaCajon);
 }
 
