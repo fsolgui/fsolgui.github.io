@@ -1,4 +1,4 @@
-/* Seminario 2: Introducción a la práctica 2: Escena básia en Threejs  */
+/* Prac 2: Grafo de escena en Threejs  */
 
 // Objetos estándar
 var renderer, camera, scene;

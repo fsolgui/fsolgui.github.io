@@ -1,4 +1,4 @@
-/* Seminario 2: Introducción a la práctica 2: Escena básia en Threejs  */
+/* Prac 3: Movimiento de cámara en Threejs  */
 
 // Objetos estándar
 var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
