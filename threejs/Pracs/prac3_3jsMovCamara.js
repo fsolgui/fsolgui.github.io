@@ -2,7 +2,7 @@
 
 // Objetos estándar
 var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
-var L = 35// Semilado de la caja ortográfica
+var L = 105// Semilado de la caja ortográfica
 
 // Globales
 var robot, angulo = 0;
@@ -42,14 +42,15 @@ function initCameras(ar){
     
     //
     // Inicializamos la cámara cenital
-    //
+    // 
     if(ar > 1){//El eje y no se modifica pues es el pequeño
-        cenitCamera = new THREE.OrthographicCamera(-L*ar, L*ar, L, -L, -100, 100); 
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L, -100, 100); 
     }else{ // Al reves, ahora dividimos para hacer mas gránde el eje y
-        cenitCamera = new THREE.OrthographicCamera(-L, L, L/ar, -L/ar , -100, 100);
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L , -100, 100);
     }
     // Colocamos la cámara cenital
     cenitCamera.position.set(0,L,0);
+    // Rotamos la cámara cenital
     // La camara cenital apunta al origen de coordenadas
     cenitCamera.lookAt(0,0,0);
     // Hay que modificar también el vector up
@@ -83,20 +84,6 @@ function updateAspectRatio(){
     orbitCamera.aspect = ar;
     // Necesitamos updatear la matriz de la cámara principal
     orbitCamera.updateProjectionMatrix(); 
-
-    if(ar > 1){
-        cenitCamera.left = -L*ar;
-        cenitCamera.right = L*ar;
-        cenitCamera.bottom = -L;
-        cenitCamera.top = L;
-    }else{
-        cenitCamera.left = -L;
-        cenitCamera.right = L;
-        cenitCamera.bottom = -L/ar;
-        cenitCamera.top = L/ar;
-    }
-
-    cenitCamera.updateProjectionMatrix();
 
 }
 
