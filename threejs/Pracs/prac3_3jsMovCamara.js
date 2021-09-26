@@ -1,7 +1,8 @@
 /* Seminario 2: Introducción a la práctica 2: Escena básia en Threejs  */
 
 // Objetos estándar
-var renderer, camera, scene;
+var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
+var L = 35// Semilado de la caja ortográfica
 
 // Globales
 var robot, angulo = 0;
@@ -26,18 +27,80 @@ function init(){
     // Escena
     scene = new THREE.Scene();
 
-    // Camara
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    // Camaras
+    ar = window.innerWidth/window.innerHeight
+    initCameras(ar)
 
-    camera.position.set(250, 280, 250);
-    // La camara apunta al origen de coordenadas
-    camera.lookAt(new THREE.Vector3(0,0,0));
+    // Impedimos que render borre automaticamente lo que hay dibujado
+    renderer.autoClear = false;
+
+    window.addEventListener("resize", updateAspectRatio);
+
+}
+
+function initCameras(ar){
+    
+    //
+    // Inicializamos la cámara cenital
+    //
+    if(ar > 1){//El eje y no se modifica pues es el pequeño
+        cenitCamera = new THREE.OrthographicCamera(-L*ar, L*ar, L, -L, -100, 100); 
+    }else{ // Al reves, ahora dividimos para hacer mas gránde el eje y
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L/ar, -L/ar , -100, 100);
+    }
+    // Colocamos la cámara cenital
+    cenitCamera.position.set(0,L,0);
+    // La camara cenital apunta al origen de coordenadas
+    cenitCamera.lookAt(0,0,0);
+    // Hay que modificar también el vector up
+    cenitCamera.up = new THREE.Vector3(0,0,-1);
+    // La añadimos a la escena
+    scene.add(cenitCamera)
+
+
+    //
+    // Inicializamos la cámara con movimiento orbit
+    //
+    orbitCamera = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    orbitCamera.position.set(250, 280, 250);
+    // Añadimos cameraControls a la cámara perspectiva
+    orbitCameraControls = new THREE.OrbitControls(orbitCamera, renderer.domElement);
+    // La cámara apunta al origen de coordenadas
+    orbitCameraControls.target.set(0,0,0)
+    // La añadimos a la escena
+    scene.add(orbitCamera)
+
+
+}
+
+function updateAspectRatio(){
+    
+    // Le informamos al renderer
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    
+    // Le informamos a la cámara principal del nuevo ar
+    var ar = window.innerWidth / window.innerHeight;
+    orbitCamera.aspect = ar;
+    // Necesitamos updatear la matriz de la cámara principal
+    orbitCamera.updateProjectionMatrix(); 
+
+    if(ar > 1){
+        cenitCamera.left = -L*ar;
+        cenitCamera.right = L*ar;
+        cenitCamera.bottom = -L;
+        cenitCamera.top = L;
+    }else{
+        cenitCamera.left = -L;
+        cenitCamera.right = L;
+        cenitCamera.bottom = -L/ar;
+        cenitCamera.top = L/ar;
+    }
+
+    cenitCamera.updateProjectionMatrix();
+
 }
 
 function loadScene(){
-    
-    // Añadimos los ejes auxiliares
-    scene.add(new THREE.AxesHelper(1100));
     
     // Creamos un material común a todas los objetos de la escena
     var material = new THREE.MeshBasicMaterial({color: 'red', wireframe: true});
@@ -221,7 +284,6 @@ function loadScene(){
     pinzaDer.position.set(2,192,-14);
     robot.add(pinzaDer);
 
-
     // Añadimos el robot a la escena
     scene.add(robot);
 
@@ -237,5 +299,15 @@ function update(){
 function render(){
     requestAnimationFrame(render);
     update();
-    renderer.render(scene, camera);
+    
+    // Borramos el renderizado anterior
+    renderer.clear()
+    
+    // Renderizamos la vista principal
+    renderer.setViewport(0,0,window.innerWidth, window.innerHeight);
+    renderer.render(scene, orbitCamera);
+    // Renderizamos la vista cenital
+    min = Math.min(window.innerHeight, window.innerWidth)
+    renderer.setViewport(0,0,min/4, min/4);
+    renderer.render(scene, cenitCamera);
 }

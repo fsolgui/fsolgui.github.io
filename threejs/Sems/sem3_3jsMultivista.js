@@ -135,33 +135,6 @@ function loadScene(){
         scene.add(cubo);
     }
 
-    /*
-
-    var geoEsfera = new THREE.SphereGeometry(0.8, 20, 20);
-    var esfera = new THREE.Mesh(geoEsfera, matCubo);
-    
-    // Añadir esfera y cubo como objetos separados
-    //scene.add(esfera);
-    //scene.add(cubo);
-
-    esferaCubo = new THREE.Object3D();
-    esferaCubo.add(esfera);
-    esferaCubo.add(cubo);
-
-    // Añadir esfera y cubo a la escena como un solo objeto
-    scene.add(esferaCubo)
-
-    var loader = new THREE.ObjectLoader();
-    loader.load('../models/soldado/soldado.json', function (objeto){ cubo.add(objeto); objeto.position.set(0,0.9,0)})
-    scene.add(loader)
-
-    // Suelo
-    var geoSuelo = new THREE.PlaneGeometry(10,10,10,10);
-    var suelo = new THREE.Mesh(geoSuelo, matCubo);
-    suelo.rotation.x = Math.PI / 2;
-    scene.add(suelo);
-    */
-
 }
 
 function updateAscpectRatio(){
