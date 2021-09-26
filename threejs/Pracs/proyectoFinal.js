@@ -184,7 +184,7 @@ function loadScene(){
     mesitaCajon.position.set(170,0,110);
     // Añadimos un portatil a través de un object loader
     var loader = new THREE.GLTFLoader();
-    loader.load("../models/laptop_icon/scene.gltf", function(objeto){mesitaCajon.add(objecto.scene)});
+    loader.load("../models/laptop_icon/scene.gltf", function(obj){mesitaCajon.add(obj.scene)});
     scene.add(mesitaCajon);
 }
 
