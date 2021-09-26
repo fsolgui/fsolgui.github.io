@@ -163,6 +163,13 @@ function loadScene(){
     // Colocamos la mesa
     mesa.rotation.y = Math.PI / 2;
     mesa.position.set(175,40,50);
+    // Añadimos un monitor a la mesa
+    var loader = new THREE.GLTFLoader();
+    loader.load("../models/monitor/scene.gltf", function(obj){
+        obj.scene.rotation.y = -Math.PI / 2;
+        //obj.scene.scale.set(0.20,0.16,0.20);
+        obj.scene.position.set(40,40,20);
+        mesa.add(obj.scene);});
     scene.add(mesa);
 
     // Creamos una mesita-cajonera
@@ -186,7 +193,7 @@ function loadScene(){
     var loader = new THREE.GLTFLoader();
     loader.load("../models/laptop_icon/scene.gltf", function(obj){
         obj.scene.rotation.y = -Math.PI / 2;
-        obj.scene.scale.set(0.18,0.18,0.18);
+        obj.scene.scale.set(0.20,0.16,0.20);
         obj.scene.position.set(-2,22,0);
         mesitaCajon.add(obj.scene);});
     scene.add(mesitaCajon);

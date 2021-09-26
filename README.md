@@ -7,3 +7,5 @@ Para más información sobre su uso y alcance consultar la [wiki](https://github
 Se han usado los siguientes modelos en el proyecto final:
 "Laptop Icon" (https://skfb.ly/6VMtC) by Simon.Keating is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+"Computer Monitor Lowpoly Model" (https://skfb.ly/6WPqT) by Marco Zakaria is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
