@@ -184,8 +184,8 @@ function loadScene(){
     mesitaCajon.position.set(170,0,110);
     // Añadimos un portatil a través de un object loader
     // "Laptop Icon" (https://skfb.ly/6VMtC) by Simon.Keating is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-    var loader = new THREE.JSONLoader();
-    loader.load('../models/laptop_icon/scene.gltf', function (objeto){ mesitaCajon.add(objeto); objeto.position.set(0,0,0)})
+    var loader = new THREE.GLTFLoader();
+    loader.load('../models/laptop_icon/scene.gltf', function (objeto){ mesitaCajon.add(objeto.scene); objeto.position.set(0,0,0)})
     scene.add(mesitaCajon);
 }
 
