@@ -44,9 +44,9 @@ function initCameras(ar){
     // Inicializamos la cámara cenital
     // 
     if(ar > 1){//El eje y no se modifica pues es el pequeño
-        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L, -100, 100); 
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L, -1000, 1000); 
     }else{ // Al reves, ahora dividimos para hacer mas gránde el eje y
-        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L , -100, 100);
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L , -1000, 1000);
     }
     // Colocamos la cámara cenital
     cenitCamera.position.set(0,L,0);

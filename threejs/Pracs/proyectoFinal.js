@@ -174,7 +174,7 @@ function loadScene(){
     // Creamos una mesita-cajonera
     var mesitaCajon = new THREE.Object3D();
     // Creamos el cubo principal
-    var geometriaMesita = new THREE.BoxGeometry(26,22,26);
+    var geometriaMesita = new THREE.BoxGeometry(34,22,26);
     var mesita = new THREE.Mesh(geometriaMesita, material);
     mesita.position.set(0,11,0);
     mesitaCajon.add(mesita);
@@ -182,19 +182,19 @@ function loadScene(){
     var geometriaCajon = new THREE.BoxGeometry(2,8,24);
     var cajon1 = new THREE.Mesh(geometriaCajon, material);
     var cajon2 = cajon1.clone();
-    cajon1.position.set(-13,6,0);
-    cajon2.position.set(-13,16,0);
+    cajon1.position.set(-17,6,0);
+    cajon2.position.set(-17,16,0);
     mesitaCajon.add(cajon1);
     mesitaCajon.add(cajon2);
     // Colamos la mesita cajon y la añadimos a escena
-    mesitaCajon.position.set(170,0,110);
+    mesitaCajon.position.set(178,0,110);
     // Añadimos un portatil a través de un object loader
     var loader = new THREE.GLTFLoader();
     loader.load("../models/laptop_icon/scene.gltf", function(obj){
         obj.scene.rotation.y = -Math.PI / 2;
-        obj.scene.scale.set(0.20,0.16,0.20);
+        obj.scene.scale.set(0.21,0.20,0.21);
         mesitaCajon.add(obj.scene);
-        obj.scene.position.set(-2,22,0)});
+        obj.scene.position.set(-4,22,0)});
     scene.add(mesitaCajon);
 }
 
