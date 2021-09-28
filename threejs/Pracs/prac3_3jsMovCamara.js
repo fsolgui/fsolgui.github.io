@@ -2,7 +2,7 @@
 
 // Objetos estándar
 var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
-var L = 105// Semilado de la caja ortográfica
+var L = 100// Semilado de la caja ortográfica
 
 // Globales
 var robot, angulo = 0;
@@ -44,9 +44,9 @@ function initCameras(ar){
     // Inicializamos la cámara cenital
     // 
     if(ar > 1){//El eje y no se modifica pues es el pequeño
-        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L, -1000, 1000); 
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L, -500, 500); 
     }else{ // Al reves, ahora dividimos para hacer mas gránde el eje y
-        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L , -1000, 1000);
+        cenitCamera = new THREE.OrthographicCamera(-L, L, L, -L , -500, 500);
     }
     // Colocamos la cámara cenital
     cenitCamera.position.set(0,L,0);
