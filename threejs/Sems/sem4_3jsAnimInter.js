@@ -129,28 +129,28 @@ function loadScene(){
 }
 
 function startAnimation(){
-    var movtIzq = TWEEN.Tween(eje.position)
+    var movtIzq = new TWEEN.Tween(eje.position)
                                             .to({   x:[-1.5, -2.5], 
                                                     y:[0, 0],
                                                     z:[0, 2.5]}, 5000)
                                             .interpolation(TWEEN.Interpolation.Bezier)
                                             .easing(TWEEN.Easing.Bounce.Out);
     
-    var movtFrente = TWEEN.Tween(eje.position)
+    var movtFrente = new TWEEN.Tween(eje.position)
                                             .to({   x:[0, 2.5], 
                                                     y:[0, 0],
                                                     z:[0, 2.5]}, 5000)
                                             .interpolation(TWEEN.Interpolation.Bezier)
                                             .easing(TWEEN.Easing.Bounce.Out);
 
-    var movtDer = TWEEN.Tween(eje.position)
+    var movtDer = new TWEEN.Tween(eje.position)
                                             .to({   x:[1.5, 2.5], 
                                                     y:[0, 0],
                                                     z:[0, -2.5]}, 5000)
                                             .interpolation(TWEEN.Interpolation.Bezier)
                                             .easing(TWEEN.Easing.Bounce.Out);
 
-    var movtTras = TWEEN.Tween(eje.position)
+    var movtTras = new TWEEN.Tween(eje.position)
                                             .to({   x:[0, -2.5], 
                                                     y:[0, 0],
                                                     z:[-1.5, -2.5]}, 5000)
@@ -158,7 +158,7 @@ function startAnimation(){
                                             .easing(TWEEN.Easing.Bounce.Out);
 
     movtIzq.chain(movtFrente);
-    movFrente.chain(movtDer);
+    movtFrente.chain(movtDer);
     movtDer.chain(movtTras);
 
     movtIzq.start();
