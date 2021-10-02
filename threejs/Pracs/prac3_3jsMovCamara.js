@@ -109,35 +109,45 @@ function loadScene(){
 
     // Creamos el brazo del robot
     var brazo = new THREE.Object3D();
-    // Creamos el hombro (cilindro cerca de la base)
-    var geometriaHombro = new THREE.CylinderGeometry(20, 20, 18, 15, 1);
-    var hombro = new THREE.Mesh(geometriaHombro, material);
-    // Rotamos el hombro
-    hombro.rotation.x = Math.PI / 2;
-    // Creamos el codo (esfera encima de la base)
-    var geometriaCodo = new THREE.SphereGeometry(20, 10, 10);
-    var codo = new THREE.Mesh(geometriaCodo, material);
-    // Trasladamos el codo para que este 120 hacia arriba (eje y)
-    codo.position.set(0, 120, 0);
-    // Creamos un eje que conecte hombro y codo
-    var geometriaConexHombroCodo = new THREE.BoxGeometry(18,120,12);
-    conexHombroCodo = new THREE.Mesh(geometriaConexHombroCodo, material);
+    // Añadimos el brazo al robot
+    base.add(brazo)
+    
+    // Creamos el esparrago (cilindro cerca de la base)
+    var geometriaEsparrago = new THREE.CylinderGeometry(20, 20, 18, 15, 1);
+    var esparrago = new THREE.Mesh(geometriaEsparrago, material);
+    // Rotamos el esparrago
+    esparrago.rotation.x = Math.PI / 2;
+    // Añadimos esparrago al brazo
+    brazo.add(esparrago);
+
+    // Creamos la rotula (esfera encima de la base)
+    var geometriaRotula = new THREE.SphereGeometry(20, 10, 10);
+    var rotula = new THREE.Mesh(geometriaRotula, material);
+    // Trasladamos la rotula para que este 120 hacia arriba (eje y)
+    rotula.position.set(0, 120, 0);
+    brazo.add(rotula)
+
+    // Creamos un eje que conecte esparrago y rotula
+    var geometriaEje = new THREE.BoxGeometry(18,120,12);
+    var eje = new THREE.Mesh(geometriaEje, material);
     // Trasladamos la conexion 60 hacía arriba (eje y)
-    conexHombroCodo.position.set(0,60,0);
-    // Añadimos codo, hombro y su conexion al objeto brazo
-    brazo.add(codo);
-    brazo.add(hombro);
-    brazo.add(conexHombroCodo);
-    //Añadimos el brazo al robot;
-    robot.add(brazo);
+    eje.position.set(0,60,0);
+    // Añadimos eje al brazo
+    brazo.add(eje);
 
     // Creamos el antebrazo del robot
     var antebrazo = new THREE.Object3D();
+    // Añadimos el antebrazo al brazo
+    brazo.add(antebrazo)
+
     // Creamos el cilindro que está a la altura del codo
-    var geometriaCilindroCodo = new THREE.CylinderGeometry(22,22,6,15,1)
-    var cilindroCodo = new THREE.Mesh(geometriaCilindroCodo, material);
+    var geometriaDisco = new THREE.CylinderGeometry(22,22,6,15,1)
+    var disco = new THREE.Mesh(geometriaDisco, material);
     // Trasladamos el cilindro a la altura del codo (120 en la y)
-    cilindroCodo.position.set(0,120,0);
+    disco.position.set(0,120,0);
+    // Añadimos el disco al antebrazo
+    antebrazo.add(disco)
+    
     // Creamos el cilindro que hace de mano
     var geometriaMano = new THREE.CylinderGeometry(15,15,40,20,1);
     var mano = new THREE.Mesh(geometriaMano, material);
@@ -145,33 +155,31 @@ function loadScene(){
     mano.position.set(0,200,0);
     // Rotamos la mano
     mano.rotation.x = Math.PI / 2;
-    // Añadimos las conexiones entre el codoCilindro y la mano
+    // Añadimos la mano al antebrazo
+    antebrazo.add(mano)
+    
+    // Añadimos los nervios entre el disco y la mano
     // Primero creamos un objeto que contendrá las 4 conexiones
-    var conexionesCilindroCodoMano = new THREE.Object3D();
+    var nervios = new THREE.Object3D();
     // Creamos la geometria y las 4 conexiones, traslandolas de manera simétrica
-    var geometriaConexCilindroCodoMano = new THREE.BoxGeometry(4,80,4);
-    var conex1CilindroCodoMano = new THREE.Mesh(geometriaConexCilindroCodoMano, material);
-    conex1CilindroCodoMano.position.set(8,0,8);
-    var conex2CilindroCodoMano = new THREE.Mesh(geometriaConexCilindroCodoMano, material);
-    conex2CilindroCodoMano.position.set(8,0,-8);
-    var conex3CilindroCodoMano = new THREE.Mesh(geometriaConexCilindroCodoMano, material);
-    conex3CilindroCodoMano.position.set(-8,0,-8);
-    var conex4CilindroCodoMano = new THREE.Mesh(geometriaConexCilindroCodoMano, material);
-    conex4CilindroCodoMano.position.set(-8,0,8);
-    // Añadimos las 4 conexiones al objeto contenedor de conexiones
-    conexionesCilindroCodoMano.add(conex1CilindroCodoMano);
-    conexionesCilindroCodoMano.add(conex2CilindroCodoMano);
-    conexionesCilindroCodoMano.add(conex3CilindroCodoMano);
-    conexionesCilindroCodoMano.add(conex4CilindroCodoMano);
+    var geometriaNervios = new THREE.BoxGeometry(4,80,4);
+    var nervio1 = new THREE.Mesh(geometriaNervios, material);
+    nervio1.position.set(8,0,8);
+    var nervio2 = new THREE.Mesh(geometriaNervios, material);
+    nervio2.position.set(8,0,-8);
+    var nervio3 = new THREE.Mesh(geometriaNervios, material);
+    nervio3.position.set(-8,0,-8);
+    var nervio4 = new THREE.Mesh(geometriaNervios, material);
+    nervio4.position.set(-8,0,8);
+    // Añadimos los 4 nervios
+    nervios.add(nervio1);
+    nervios.add(nervio2);
+    nervios.add(nervio3);
+    nervios.add(nervio4);
     // Trasladamos todas las conexiones hacia arriba (eje y 120 + 80/2)
-    conexionesCilindroCodoMano.position.set(0,160,0);
-    // Añadimos la mano, cilindroCodo y las conexiones al antebrazo
-    antebrazo.add(cilindroCodo);
-    antebrazo.add(mano);
-    antebrazo.add(conexionesCilindroCodoMano);
-    // Añadimos el antebrazo al robot
-    robot.add(antebrazo);
-
+    nervios.position.set(0,160,0);
+    // Añadimos los nervios al antebrazo
+    antebrazo.add(nervios)
 
     // Creación de la pinza izquierda
     var pinzaIzqGeo = new THREE.Geometry();
@@ -217,10 +225,11 @@ function loadScene(){
         pinzaIzqGeo.faces.push(triangulo);
     }
 
-    // Creamos el mesh y lo añadimos al robot
+    // Creamos el mesh y lo añadimos a la mano
     var pinzaIzq = new THREE.Mesh(pinzaIzqGeo, material);
-    pinzaIzq.position.set(2,192,20);
-    robot.add(pinzaIzq);
+    mano.add(pinzaIzq);
+    pinzaIzq.rotation.x = Math.PI/2;
+    pinzaIzq.position.set(2,16,-12);
 
     
     // Creación de la pinza derecha
@@ -268,8 +277,9 @@ function loadScene(){
 
     // Creamos el mesh y lo añadimos al robot
     var pinzaDer = new THREE.Mesh(pinzaDerGeo, material);
-    pinzaDer.position.set(2,192,-16);
-    robot.add(pinzaDer);
+    mano.add(pinzaDer);
+    pinzaDer.rotation.x = Math.PI/2;
+    pinzaDer.position.set(2,-20,-12);
 
     // Añadimos el robot a la escena
     scene.add(robot);
