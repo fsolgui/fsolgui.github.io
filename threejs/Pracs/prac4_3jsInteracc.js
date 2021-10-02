@@ -5,7 +5,7 @@ var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
 var L = 100// Semilado de la caja ortográfica
 
 // Globales
-var robot, base, angulo = 0;
+var robot, base, brazo, antebrazo, mano, angulo, pinzaIzq, pinzaDer;
 
 // GUI
 var effectController;
@@ -32,8 +32,8 @@ function setupGUI(){
     var carpeta = gui.addFolder("Control robot");
     carpeta.add(effectController, "giroBase", -180, 180, 1).name("Giro Base");
     carpeta.add(effectController, "giroBrazo", -45, 45, 1).name("Giro Brazo");
-    carpeta.add(effectController, "giroAntebrazoY", -180, 180, 1).name("Giro Antebrazo Y");
-    carpeta.add(effectController, "giroAntebrazoZ", -90, 90, 1).name("Giro Antebrazo Z");
+    carpeta.add(effectController, "giroAntebrazoY", -180, 180, 1).name("GiroY Antebrazo");
+    carpeta.add(effectController, "giroAntebrazoZ", -90, 90, 1).name("GiroZ Antebrazo");
     carpeta.add(effectController, "giroPinza", -40, 220, 1).name("Giro Pinza");
     carpeta.add(effectController, "separacionPinza", 0, 15, 1).name("Separación inza");
 }
@@ -135,7 +135,7 @@ function loadScene(){
     robot.add(base);
 
     // Creamos el brazo del robot
-    var brazo = new THREE.Object3D();
+    brazo = new THREE.Object3D();
     // Añadimos el brazo al robot
     base.add(brazo)
     
@@ -163,7 +163,7 @@ function loadScene(){
     brazo.add(eje);
 
     // Creamos el antebrazo del robot
-    var antebrazo = new THREE.Object3D();
+    antebrazo = new THREE.Object3D();
     // Añadimos el antebrazo al brazo
     brazo.add(antebrazo)
 
@@ -177,7 +177,7 @@ function loadScene(){
     
     // Creamos el cilindro que hace de mano
     var geometriaMano = new THREE.CylinderGeometry(15,15,40,20,1);
-    var mano = new THREE.Mesh(geometriaMano, material);
+    mano = new THREE.Mesh(geometriaMano, material);
     // Trasladamos la mano para que esté por encima del codo (eje y 120+80)
     mano.position.set(0,200,0);
     // Rotamos la mano
@@ -253,7 +253,7 @@ function loadScene(){
     }
 
     // Creamos el mesh y lo añadimos a la mano
-    var pinzaIzq = new THREE.Mesh(pinzaIzqGeo, material);
+    pinzaIzq = new THREE.Mesh(pinzaIzqGeo, material);
     mano.add(pinzaIzq);
     pinzaIzq.rotation.x = Math.PI/2;
     pinzaIzq.position.set(2,16,-12);
@@ -303,7 +303,7 @@ function loadScene(){
     }
 
     // Creamos el mesh y lo añadimos al robot
-    var pinzaDer = new THREE.Mesh(pinzaDerGeo, material);
+    pinzaDer = new THREE.Mesh(pinzaDerGeo, material);
     mano.add(pinzaDer);
     pinzaDer.rotation.x = Math.PI/2;
     pinzaDer.position.set(2,-20,-12);
@@ -329,9 +329,34 @@ function render(){
     renderer.clear()
     
     // Giro de la base
-    var giroBase = effectController.giroBase;
-    angulo = giroBase * Math.PI/180;
+    var giro = effectController.giroBase;
+    angulo = giro * Math.PI/180;
     base.rotation.y = angulo;
+
+    // Giro del brazo
+    var giro = effectController.giroBrazo;
+    angulo = giro * Math.PI/180;
+    brazo.rotation.z = -angulo;
+
+    // Giro antebrazo Y
+    var giro = effectController.giroAntebrazoY;
+    angulo = giro * Math.PI/180;
+    antebrazo.rotation.y = angulo;
+
+    // Giro antebrazo Z
+    var giro = effectController.giroAntebrazoZ;
+    angulo = giro * Math.PI/180;
+    antebrazo.rotation.z = angulo;
+
+    // Giro pinza
+    var giro = effectController.giroPinza;
+    angulo = giro * Math.PI/180;
+    mano.rotation.y = angulo;
+
+    // Distancia pinza
+    var sep = effectController.separacionPinza;
+    pinzaIzq.position.set(2,sep,-12);
+    pinzaDer.position.set(2,-sep-4,-12);
 
     // Renderizamos la vista principal
     renderer.setViewport(0,0,window.innerWidth, window.innerHeight);
