@@ -78,6 +78,7 @@ function setupGUI(){
     
     // Slider
     carpeta.add(effectController, "vueltasXsg", 0.0, 5.0, 0.2).name("Vueltas/sg");
+
     carpeta.add(effectController, "reiniciar").name("Reiniciar");
     carpeta.add(effectController, "check").name("Check sin uso");
     

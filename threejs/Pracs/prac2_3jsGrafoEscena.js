@@ -169,7 +169,7 @@ function loadScene(){
 
     // Creamos el mesh y lo añadimos al robot
     var pinzaIzq = new THREE.Mesh(pinzaIzqGeo, material);
-    pinzaIzq.position.set(2,192,14);
+    pinzaIzq.position.set(2,192,20);
     robot.add(pinzaIzq);
 
     
@@ -218,7 +218,7 @@ function loadScene(){
 
     // Creamos el mesh y lo añadimos al robot
     var pinzaDer = new THREE.Mesh(pinzaDerGeo, material);
-    pinzaDer.position.set(2,192,-14);
+    pinzaDer.position.set(2,192,-16);
     robot.add(pinzaDer);
 
 

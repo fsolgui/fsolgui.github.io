@@ -1,18 +1,43 @@
-/* Prac 3: Movimiento de cámara en Threejs  */
+/* Prac 4: Interacción con el usuario en Threejs  */
 
 // Objetos estándar
 var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
 var L = 100// Semilado de la caja ortográfica
 
 // Globales
-var robot, angulo = 0;
+var robot, base, angulo = 0;
+
+// GUI
+var effectController;
 
 //Acciones
 init();
+setupGUI();
 loadScene();
 render();
 
 // Función de inicialización
+function setupGUI(){
+    
+    effectController = {
+        giroBase: 0.0,
+        giroBrazo: 0.0,
+        giroAntebrazoY: 0.0,
+        giroAntebrazoZ: 0.0,
+        giroPinza: 0.0,
+        separacionPinza: 7
+    }
+
+    var gui = new dat.GUI();
+    var carpeta = gui.addFolder("Control robot");
+    carpeta.add(effectController, "giroBase", -180, 180, 1).name("Giro Base");
+    carpeta.add(effectController, "giroBrazo", -45, 45, 1).name("Giro Base");
+    carpeta.add(effectController, "giroAntebrazoY", -180, 180, 1).name("Giro Base");
+    carpeta.add(effectController, "giroAntebrazoZ", -90, 90, 1).name("Giro Base");
+    carpeta.add(effectController, "giroPinza", -40, 220, 1).name("Giro Base");
+    carpeta.add(effectController, "separacionPinza", 0, 15, 1).name("Giro Base");
+}
+
 function init(){
     
     // Instanciar el motor, canvas, escena y camara
@@ -89,6 +114,8 @@ function updateAspectRatio(){
 
 function loadScene(){
     
+    scene.add(new THREE.AxesHelper(2000));
+    
     // Creamos un material común a todas los objetos de la escena
     var material = new THREE.MeshBasicMaterial({color: 'red', wireframe: true});
 
@@ -103,7 +130,7 @@ function loadScene(){
 
     // Creamos la base del robot
     var geometriaBase = new THREE.CylinderGeometry(50,50,15, 30, 1);
-    var base = new THREE.Mesh(geometriaBase, material)
+    base = new THREE.Mesh(geometriaBase, material)
     // Añadimos la base al robot
     robot.add(base);
 
@@ -284,12 +311,18 @@ function update(){
 }
 
 function render(){
+    
     requestAnimationFrame(render);
     update();
     
     // Borramos el renderizado anterior
     renderer.clear()
     
+    // Giro de la base
+    var giroBase = effectController.giroBase;
+    angulo = giroBase * Math.PI/180;
+    base.rotation.y = angulo;
+
     // Renderizamos la vista principal
     renderer.setViewport(0,0,window.innerWidth, window.innerHeight);
     renderer.render(scene, orbitCamera);
