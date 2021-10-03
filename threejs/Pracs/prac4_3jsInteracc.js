@@ -67,13 +67,13 @@ function init(){
 
 function onDocumentKeyDown(event) {
     var keyCode = event.which;
-    if (keyCode == 87) {
+    if (keyCode == 37) {
         base.position.z += ySpeed;
-    } else if (keyCode == 83) {
+    } else if (keyCode == 39) {
         base.position.z -= ySpeed;
-    } else if (keyCode == 65) {
+    } else if (keyCode == 38) {
         base.position.x -= xSpeed;
-    } else if (keyCode == 68) {
+    } else if (keyCode == 40) {
         base.position.x += xSpeed;
     }
 }
@@ -110,7 +110,13 @@ function initCameras(ar){
     orbitCameraControls.target.set(0,0,0)
     // La añadimos a la escena
     scene.add(orbitCamera)
-
+    orbitCameraControls.keys = {
+        LEFT: '65',
+        UP: '87',
+        RIGHT: '68',
+        BOTTOM: '83'
+    };
+    orbitCameraControls.enableKeys = true;
 
 }
 
