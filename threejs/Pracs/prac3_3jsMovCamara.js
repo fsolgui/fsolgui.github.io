@@ -143,8 +143,6 @@ function loadScene(){
     // Creamos el cilindro que está a la altura del codo
     var geometriaDisco = new THREE.CylinderGeometry(22,22,6,15,1)
     var disco = new THREE.Mesh(geometriaDisco, material);
-    // Trasladamos el cilindro a la altura del codo (120 en la y)
-    disco.position.set(0,120,0);
     // Añadimos el disco al antebrazo
     antebrazo.add(disco)
     
@@ -152,7 +150,7 @@ function loadScene(){
     var geometriaMano = new THREE.CylinderGeometry(15,15,40,20,1);
     var mano = new THREE.Mesh(geometriaMano, material);
     // Trasladamos la mano para que esté por encima del codo (eje y 120+80)
-    mano.position.set(0,200,0);
+    mano.position.set(0,80,0);
     // Rotamos la mano
     mano.rotation.x = Math.PI / 2;
     // Añadimos la mano al antebrazo
@@ -177,9 +175,12 @@ function loadScene(){
     nervios.add(nervio3);
     nervios.add(nervio4);
     // Trasladamos todas las conexiones hacia arriba (eje y 120 + 80/2)
-    nervios.position.set(0,160,0);
+    nervios.position.set(0,40,0);
     // Añadimos los nervios al antebrazo
     antebrazo.add(nervios)
+
+    // Colocamos el antebrazo en la posición correcta
+    antebrazo.position.set(0,120,0);
 
     // Creación de la pinza izquierda
     var pinzaIzqGeo = new THREE.Geometry();
