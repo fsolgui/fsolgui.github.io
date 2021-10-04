@@ -110,14 +110,8 @@ function initCameras(ar){
     orbitCameraControls.target.set(0,0,0)
     // La añadimos a la escena
     scene.add(orbitCamera)
-    orbitCameraControls.keys = {
-        LEFT: '65',
-        UP: '87',
-        RIGHT: '68',
-        BOTTOM: '83'
-    };
-    orbitCameraControls.enableKeys = true;
-
+    // Disable controls to use them to move robot
+    orbitCameraControls.enableKeys = false;
 }
 
 function updateAspectRatio(){
