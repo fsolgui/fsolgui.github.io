@@ -15,6 +15,8 @@ render();
 // Función de inicialización
 function init(){
     
+    clock = new THREE.Clock();
+    
     // Instanciar el motor, canvas, escena y camara
 
     // Motor
@@ -61,6 +63,7 @@ function initCameras(ar){
     //
     // Inicializamos la cámara con movimiento orbit
     //
+
     orbitCamera = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
     orbitCamera.position.set(0, 60, 0);
     // Añadimos cameraControls a la cámara perspectiva
@@ -121,12 +124,30 @@ function loadScene(){
     // Creamos las paredes perpendiculares al eje z
     var geometriaPared = new THREE.PlaneGeometry(400,120,10,10);
     var pared1 = new THREE.Mesh(geometriaPared, material);
-    var pared2 = pared1.clone();
+    //var pared2 = pared1.clone();
     pared1.position.set(0,60,200);
-    pared2.position.set(0,60,-200);
+    //pared2.position.set(0,60,-200);
     // Lo añadimos a la escena
     scene.add(pared1);
-    scene.add(pared2);
+    //scene.add(pared2);
+
+    // Añadimos dos paredes para dejar hueco en el centro para una ventana
+    var geometriaPared2Lados = new THREE.PlaneGeometry(130,120,5,5);
+    var pared2Izq = new THREE.Mesh(geometriaPared2Lados, material);
+    var pared2Der = pared2Izq.clone();
+    pared2Izq.position.set(-135,60,-200);
+    pared2Der.position.set(135,60,-200);
+    scene.add(pared2Izq);
+    scene.add(pared2Der);
+
+    // Rellenamos arriba y abajo para acabar la ventana
+    var geometriaPared2Top = new THREE.PlaneGeometry(140,30,3,3);
+    var pared2Arriba = new THREE.Mesh(geometriaPared2Top, material);
+    var pared2Abajo = pared2Arriba.clone();
+    pared2Arriba.position.set(0,105,-200);
+    pared2Abajo.position.set(0,15,-200);
+    scene.add(pared2Arriba);
+    scene.add(pared2Abajo);
 
     // Creamos las paredes perpendiculares al eje z
     var pared3 = new THREE.Mesh(geometriaPared, material);
@@ -206,6 +227,8 @@ function render(){
     requestAnimationFrame(render);
     update();
     
+
+
     // Borramos el renderizado anterior
     renderer.clear()
     
