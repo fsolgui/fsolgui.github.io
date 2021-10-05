@@ -350,7 +350,7 @@ function render(){
         }
 
         // Render camBottomLeft
-        renderer.setViewport(0,h/2,w/2-1,h/2);
+        renderer.setViewport(0,h/2,w/2,h/2);
         switch(camBottomLeftGUI){
             case "camX":
                 renderer.render(scene, camX);
