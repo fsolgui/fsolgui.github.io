@@ -2,20 +2,44 @@
 
 // Objetos estándar
 var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
-var L = 35// Semilado de la caja ortográfica
+
+// Cámaras
+var camX, camMinusX, camZ, camMinusZ, camOrtographic, camWeb;
+
+var L = 200// Semilado de la caja ortográfica
 
 // Globales
 var robot, angulo = 0;
 
+// GUI
+var effectController;
+
 //Acciones
 init();
+initGUI();
 loadScene();
 render();
 
+// Función de inicialización de la GUI
+function initGUI(){
+    
+    effectController = {
+        camUpLeft: "camX",
+        camUpRight: "camMinusX",
+        camBottomLeft: "camZ",
+        camBottomRight: "camMinusZ",
+    }
+
+    var gui = new dat.GUI();
+    var carpeta = gui.addFolder("Control cameras");
+    carpeta.add(effectController, "camUpLeft", ["camX","camMinusX","camZ","camMinusZ","ortographic","webCam"]).name("camUpLeft");
+    carpeta.add(effectController, "camUpRight", ["camX","camMinusX","camZ","camMinusZ","ortographic","webCam"]).name("camUpRight");
+    carpeta.add(effectController, "camBottomLeft", ["camX","camMinusX","camZ","camMinusZ","ortographic","webCam"]).name("camBottomLeft");
+    carpeta.add(effectController, "camBottomRight", ["camX","camMinusX","camZ","camMinusZ","ortographic","webCam"]).name("camBottomRight");
+}
+
 // Función de inicialización
 function init(){
-    
-    clock = new THREE.Clock();
     
     // Instanciar el motor, canvas, escena y camara
 
@@ -36,42 +60,53 @@ function init(){
     // Impedimos que render borre automaticamente lo que hay dibujado
     renderer.autoClear = false;
 
+    // Añadimos el resize automático
     window.addEventListener("resize", updateAspectRatio);
 
 }
 
 function initCameras(ar){
     
-    //
-    // Inicializamos la cámara cenital
-    //
+    // Inicializamos camX
+    camX = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    camX.position.set(195,110,0);
+    camX.lookAt(0,0,0)
+    scene.add(camX);
+
+    // Inicializamos camMinusX
+    camMinusX = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    camMinusX.position.set(-195,110,0);
+    camMinusX.lookAt(0,0,0)
+    scene.add(camMinusX);
+
+    // Inicializamos camZ
+    camZ = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    camZ.position.set(0,110,195);
+    camZ.lookAt(0,0,0)
+    scene.add(camZ);
+
+    // Inicializamos camMinusZ
+    camMinusZ = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    camMinusZ.position.set(0,110,-195);
+    camMinusZ.lookAt(0,0,0)
+    scene.add(camMinusZ);
+
+    // Inicializamos webCam
+    /*
+    camX = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    camX.position.set(195,110,0);
+    camX.target.set(0,0,0);
+    scene.add(camX);*/
+
+    // Inicializamos camOrtographic
     if(ar > 1){//El eje y no se modifica pues es el pequeño
-        cenitCamera = new THREE.OrthographicCamera(-L*ar, L*ar, L, -L, -100, 100); 
+        camOrtographic = new THREE.OrthographicCamera(-L*ar, L*ar, L, -L, -140, 140); 
     }else{ // Al reves, ahora dividimos para hacer mas gránde el eje y
-        cenitCamera = new THREE.OrthographicCamera(-L, L, L/ar, -L/ar , -100, 100);
+        camOrtographic = new THREE.OrthographicCamera(-L, L, L/ar, -L/ar , -140, 140);
     }
-    // Colocamos la cámara cenital
-    cenitCamera.position.set(0,L,0);
-    // La camara cenital apunta al origen de coordenadas
-    cenitCamera.lookAt(0,0,0);
-    // Hay que modificar también el vector up
-    cenitCamera.up = new THREE.Vector3(0,0,-1);
-    // La añadimos a la escena
-    scene.add(cenitCamera)
-
-
-    //
-    // Inicializamos la cámara con movimiento orbit
-    //
-
-    orbitCamera = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
-    orbitCamera.position.set(0, 60, 0);
-    // Añadimos cameraControls a la cámara perspectiva
-    orbitCameraControls = new THREE.OrbitControls(orbitCamera, renderer.domElement);
-    // La cámara apunta al origen de coordenadas
-    orbitCameraControls.target.set(0,0,0)
-    // La añadimos a la escena
-    scene.add(orbitCamera)
+    camOrtographic.position.set(0,118,0);
+    camOrtographic.lookAt(0,0,0);
+    scene.add(camOrtographic);
 
 }
 
@@ -224,19 +259,139 @@ function update(){
 }
 
 function render(){
+    
     requestAnimationFrame(render);
     update();
     
-
-
     // Borramos el renderizado anterior
     renderer.clear()
     
-    // Renderizamos la vista principal
-    renderer.setViewport(0,0,window.innerWidth, window.innerHeight);
-    renderer.render(scene, orbitCamera);
-    // Renderizamos la vista cenital
-    min = Math.min(window.innerHeight, window.innerWidth)
-    renderer.setViewport(0,0,min/4, min/4);
-    renderer.render(scene, cenitCamera);
+    // CamUpLeft
+    var camUpLeftGUI = effectController.camUpLeft;
+    var camUpRightGUI = effectController.camUpRight;
+    var camBottomLeftGUI = effectController.camBottomLeft;
+    var camBottomRightGUI = effectController.camBottomRight;
+
+    // Read width and height
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    if( camUpLeftGUI == camUpRightGUI &&
+        camUpLeftGUI == camBottomLeftGUI &&
+        camUpLeftGUI == camBottomRightGUI){
+        
+        // Mostramos una única cámara en el render
+        renderer.setViewport(0,0,w,h);
+        switch(camUpLeftGUI){
+            case "camX":
+                renderer.render(scene, camX);
+                break
+            case "camMinusX":
+                renderer.render(scene, camMinusX);
+                break
+            case "camZ":
+                renderer.render(scene, camZ);
+                break
+            case "camMinusZ":
+                renderer.render(scene, camMinusZ);
+                break
+            case "ortographic":
+                renderer.render(scene, camOrtographic);
+                break
+            case "webCam":
+                renderer.render(scene, camWeb);
+        }
+
+
+    }else{
+        
+        // Render camUpLeft
+        renderer.setViewport(0,0,w/2,h/2);
+        switch(camUpLeftGUI){
+            case "camX":
+                renderer.render(scene, camX);
+                break
+            case "camMinusX":
+                renderer.render(scene, camMinusX);
+                break
+            case "camZ":
+                renderer.render(scene, camZ);
+                break
+            case "camMinusZ":
+                renderer.render(scene, camMinusZ);
+                break
+            case "ortographic":
+                renderer.render(scene, camOrtographic);
+                break
+            case "webCam":
+                renderer.render(scene, camWeb);
+        }
+
+        // Render camUpRight
+        renderer.setViewport(w/2,0,w/2,h/2);
+        switch(camUpRightGUI){
+            case "camX":
+                renderer.render(scene, camX);
+                break
+            case "camMinusX":
+                renderer.render(scene, camMinusX);
+                break
+            case "camZ":
+                renderer.render(scene, camZ);
+                break
+            case "camMinusZ":
+                renderer.render(scene, camMinusZ);
+                break
+            case "ortographic":
+                renderer.render(scene, camOrtographic);
+                break
+            case "webCam":
+                renderer.render(scene, camWeb);
+        }
+
+        // Render camBottomLeft
+        renderer.setViewport(0,h/2,w/2-1,h/2);
+        switch(camBottomLeftGUI){
+            case "camX":
+                renderer.render(scene, camX);
+                break
+            case "camMinusX":
+                renderer.render(scene, camMinusX);
+                break
+            case "camZ":
+                renderer.render(scene, camZ);
+                break
+            case "camMinusZ":
+                renderer.render(scene, camMinusZ);
+                break
+            case "ortographic":
+                renderer.render(scene, camOrtographic);
+                break
+            case "webCam":
+                renderer.render(scene, camWeb);
+        }
+
+        // Render camBottomLeft
+        renderer.setViewport(w/2,h/2,w/2,h/2);
+        switch(camBottomRightGUI){
+            case "camX":
+                renderer.render(scene, camX);
+                break
+            case "camMinusX":
+                renderer.render(scene, camMinusX);
+                break
+            case "camZ":
+                renderer.render(scene, camZ);
+                break
+            case "camMinusZ":
+                renderer.render(scene, camMinusZ);
+                break
+            case "ortographic":
+                renderer.render(scene, camOrtographic);
+                break
+            case "webCam":
+                renderer.render(scene, camWeb);
+        }
+
+    }
 }
