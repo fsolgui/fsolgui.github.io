@@ -275,7 +275,6 @@ function render(){
     // Read width and height
     var w = window.innerWidth;
     var h = window.innerHeight;
-    var h = window.innerHeight;
 
     if( camUpLeftGUI == camUpRightGUI &&
         camUpLeftGUI == camBottomLeftGUI &&
