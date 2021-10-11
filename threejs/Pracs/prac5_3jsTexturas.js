@@ -194,11 +194,9 @@ function loadScene(){
     base.add(brazo)
     
     // Creamos el esparrago (cilindro cerca de la base)
-    // Creamos la textura
-    var matesparrago = new THREE.MeshLambertMaterial({color:'grey',map:txbase});
     // Creamos la geometria
     var geometriaEsparrago = new THREE.CylinderGeometry(20, 20, 18, 15, 1);
-    var esparrago = new THREE.Mesh(geometriaEsparrago, matesparrago);
+    var esparrago = new THREE.Mesh(geometriaEsparrago, matbase);
     // Añadimos sombras
     esparrago.castShadow = true;
     esparrago.receiveShadow = true;
@@ -227,10 +225,8 @@ function loadScene(){
     brazo.add(rotula)
 
     // Creamos un eje que conecte esparrago y rotula
-    // Creamos la textura
-    var mateje = new THREE.MeshLambertMaterial({color:'grey',map:txbase});
     var geometriaEje = new THREE.BoxGeometry(18,120,12);
-    var eje = new THREE.Mesh(geometriaEje, mateje);
+    var eje = new THREE.Mesh(geometriaEje, matbase);
     // Trasladamos la conexion 60 hacía arriba (eje y)
     eje.position.set(0,60,0);
     // Añadimos sombras
