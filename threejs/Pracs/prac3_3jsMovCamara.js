@@ -238,8 +238,8 @@ function loadScene(){
     pinzaGeo.computeVertexNormals();
 
     // Creamos el mesh y lo añadimos al robot
-    var pinzaIzq = new THREE.Mesh(pinzaGeo, matbase);
-    var pinzaDer = new THREE.Mesh(pinzaGeo, matbase);
+    var pinzaIzq = new THREE.Mesh(pinzaGeo, material);
+    var pinzaDer = new THREE.Mesh(pinzaGeo, material);
     mano.add(pinzaIzq);
     mano.add(pinzaDer);
     

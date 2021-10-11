@@ -14,6 +14,31 @@ render();
 // Función de inicialización
 function init(){
     
+    // Instanciar el motor, canvas, escena y camara
+
+    // Motor
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor( new THREE.Color(0xFFFFFF));
+    // Añadimos el canvas del renderer al container del html
+    document.getElementById('container').appendChild(renderer.domElement);
+
+    // Escena
+    scene = new THREE.Scene();
+
+    // Camara
+    ar = window.innerWidth / window.innerHeight
+    camera = new THREE.PerspectiveCamera(75, ar, 0.1, 1000);
+    camera.position.set(250, 280, 250);
+    // La cámara apunta al origen de coordenadas
+    camera.lookAt(0,0,0)
+    // La añadimos a la escena
+    scene.add(camera);
+
+}
+
+function loadScene(){
+    
     // Creamos un material común a todas los objetos de la escena
     var material = new THREE.MeshBasicMaterial({color: 'red', wireframe: true});
 
@@ -163,8 +188,8 @@ function init(){
     pinzaGeo.computeVertexNormals();
 
     // Creamos el mesh y lo añadimos al robot
-    var pinzaIzq = new THREE.Mesh(pinzaGeo, matbase);
-    var pinzaDer = new THREE.Mesh(pinzaGeo, matbase);
+    var pinzaIzq = new THREE.Mesh(pinzaGeo, material);
+    var pinzaDer = new THREE.Mesh(pinzaGeo, material);
     mano.add(pinzaIzq);
     mano.add(pinzaDer);
     
