@@ -1,4 +1,4 @@
-/* Prac 4: Interacción con el usuario en Threejs  */
+/* Prac 5: Texturas en Threejs  */
 
 // Objetos estándar
 var renderer, orbitCamera, orbitCameraControls, cenitCamera, scene;
@@ -47,6 +47,7 @@ function init(){
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor( new THREE.Color(0xFFFFFF));
+    renderer.shadowMap.enabled = true;
     // Añadimos el canvas del renderer al container del html
     document.getElementById('container').appendChild(renderer.domElement);
 
@@ -112,6 +113,26 @@ function initCameras(ar){
     scene.add(orbitCamera)
     // Disable controls to use them to move robot
     orbitCameraControls.enableKeys = false;
+
+    // Luces
+    
+    var luzAmbiente = new THREE.AmbientLight(0xFFFFFF,0.7);
+    scene.add(luzAmbiente);
+
+    var luzPuntual = new THREE.PointLight(0xFFFFFF,0.5);
+    luzPuntual.position.set(-100,200,-100);
+    //scene.add(luzPuntual);
+
+    var luzFocal = new THREE.SpotLight(0xFFFFFF,1);
+    luzFocal.position.set(400,500,400);
+    luzFocal.target.position.set(0,0,0);
+    luzFocal.angle = Math.PI / 10;
+    luzFocal.penumbra = 0.2;
+    luzFocal.castShadow = true;
+    luzFocal.shadow.camera.near = 0.5;
+    luzFocal.shadow.camera.far = 2000;
+    scene.add(luzFocal);
+
 }
 
 function updateAspectRatio(){
@@ -129,23 +150,41 @@ function updateAspectRatio(){
 
 function loadScene(){
     
+    // Añadimos axes helper
     scene.add(new THREE.AxesHelper(2000));
     
+    // Path principal de texturas
+    var path = "../images/";
+
     // Creamos un material común a todas los objetos de la escena
     var material = new THREE.MeshBasicMaterial({color: 'red', wireframe: true});
 
     // Añadimos el suelo a la escena
-    var geometriaSuelo = new THREE.PlaneGeometry(1000,1000,10,10);
-    var suelo = new THREE.Mesh(geometriaSuelo, material);
+    // Creamos la textura del suelo
+    var txsuelo = new THREE.TextureLoader().load(path+"pisometalico_1024.jpg");
+    var matsuelo = new THREE.MeshLambertMaterial({ color: 'white', map: txsuelo});
+    // Creamos la geometria
+    var geometriaSuelo = new THREE.PlaneGeometry(1000,1000,100,100);
+    var suelo = new THREE.Mesh(geometriaSuelo, matsuelo);
     suelo.rotation.x = -Math.PI / 2;
+    // Añadimos sombra al suelo
+    suelo.receiveShadow = true;
     scene.add(suelo);
+
     
     // Creamos un objeto que contendrá todas las partes del robot
     robot = new THREE.Object3D();
 
     // Creamos la base del robot
+    // Creamos el material
+    var txbase = new THREE.TextureLoader().load(path+"metal_128x128.jpg");
+    var matbase = new THREE.MeshLambertMaterial({color:'grey',map:txbase});
+    // Creamos la geometria
     var geometriaBase = new THREE.CylinderGeometry(50,50,15, 30, 1);
-    base = new THREE.Mesh(geometriaBase, material)
+    base = new THREE.Mesh(geometriaBase, matbase)
+    // Añadimos sombras
+    base.receiveShadow = true;
+    base.castShadow = true;
     // Añadimos la base al robot
     robot.add(base);
 
@@ -155,25 +194,48 @@ function loadScene(){
     base.add(brazo)
     
     // Creamos el esparrago (cilindro cerca de la base)
+    // Creamos la textura
+    var matesparrago = new THREE.MeshLambertMaterial({color:'grey',map:txbase});
+    // Creamos la geometria
     var geometriaEsparrago = new THREE.CylinderGeometry(20, 20, 18, 15, 1);
-    var esparrago = new THREE.Mesh(geometriaEsparrago, material);
+    var esparrago = new THREE.Mesh(geometriaEsparrago, matesparrago);
+    // Añadimos sombras
+    esparrago.castShadow = true;
+    esparrago.receiveShadow = true;
     // Rotamos el esparrago
     esparrago.rotation.x = Math.PI / 2;
     // Añadimos esparrago al brazo
     brazo.add(esparrago);
 
     // Creamos la rotula (esfera encima de la base)
+    // Creamos la textura
+    var paredes = [ path+"posx.jpg", path+"negx.jpg",
+                    path+"posy.jpg", path+"negy.jpg",
+                    path+"posz.jpg", path+"negz.jpg"];   
+    var txmapaEntorno = new THREE.CubeTextureLoader().load(paredes);
+    var matEntorno = new THREE.MeshPhongMaterial({color:'white',
+                                                specular:'white',
+                                                shininess: 20,
+                                                envMap: txmapaEntorno});
     var geometriaRotula = new THREE.SphereGeometry(20, 10, 10);
-    var rotula = new THREE.Mesh(geometriaRotula, material);
+    var rotula = new THREE.Mesh(geometriaRotula, matEntorno);
     // Trasladamos la rotula para que este 120 hacia arriba (eje y)
     rotula.position.set(0, 120, 0);
+    // Añadimos sombras
+    rotula.castShadow = true;
+    rotula.receiveShadow = true;
     brazo.add(rotula)
 
     // Creamos un eje que conecte esparrago y rotula
+    // Creamos la textura
+    var mateje = new THREE.MeshLambertMaterial({color:'grey',map:txbase});
     var geometriaEje = new THREE.BoxGeometry(18,120,12);
-    var eje = new THREE.Mesh(geometriaEje, material);
+    var eje = new THREE.Mesh(geometriaEje, mateje);
     // Trasladamos la conexion 60 hacía arriba (eje y)
     eje.position.set(0,60,0);
+    // Añadimos sombras
+    eje.castShadow = true;
+    eje.receiveShadow = true;
     // Añadimos eje al brazo
     brazo.add(eje);
 
@@ -183,18 +245,31 @@ function loadScene(){
     brazo.add(antebrazo)
 
     // Creamos el cilindro que está a la altura del codo
-    var geometriaDisco = new THREE.CylinderGeometry(22,22,6,15,1)
-    var disco = new THREE.Mesh(geometriaDisco, material);
+    // Creamos la textura
+    var matdisco = new THREE.MeshPhongMaterial({color:'grey',
+                                                specular:'grey',
+                                                shininess: 50,
+                                                map: txbase});
+    var geometriaDisco = new THREE.CylinderGeometry(22,22,6,40,2)
+    var disco = new THREE.Mesh(geometriaDisco, matdisco);
+    // Añadimos sombras
+    disco.castShadow = true;
+    disco.receiveShadow = true;
     // Añadimos el disco al antebrazo
     antebrazo.add(disco)
     
     // Creamos el cilindro que hace de mano
+    // Creamos la textura
+    var matmano = new THREE.MeshLambertMaterial({color:'red',map:txbase});
     var geometriaMano = new THREE.CylinderGeometry(15,15,40,20,1);
-    mano = new THREE.Mesh(geometriaMano, material);
+    mano = new THREE.Mesh(geometriaMano, matmano);
     // Trasladamos la mano para que esté por encima del codo (eje y 120+80)
     mano.position.set(0,80,0);
     // Rotamos la mano
     mano.rotation.x = Math.PI / 2;
+    // Añadimos sombras
+    mano.castShadow = true;
+    mano.receiveShadow = true;
     // Añadimos la mano al antebrazo
     antebrazo.add(mano)
     
@@ -203,13 +278,13 @@ function loadScene(){
     var nervios = new THREE.Object3D();
     // Creamos la geometria y las 4 conexiones, traslandolas de manera simétrica
     var geometriaNervios = new THREE.BoxGeometry(4,80,4);
-    var nervio1 = new THREE.Mesh(geometriaNervios, material);
+    var nervio1 = new THREE.Mesh(geometriaNervios, matdisco);
     nervio1.position.set(8,0,8);
-    var nervio2 = new THREE.Mesh(geometriaNervios, material);
+    var nervio2 = new THREE.Mesh(geometriaNervios, matdisco);
     nervio2.position.set(8,0,-8);
-    var nervio3 = new THREE.Mesh(geometriaNervios, material);
+    var nervio3 = new THREE.Mesh(geometriaNervios, matdisco);
     nervio3.position.set(-8,0,-8);
-    var nervio4 = new THREE.Mesh(geometriaNervios, material);
+    var nervio4 = new THREE.Mesh(geometriaNervios, matdisco);
     nervio4.position.set(-8,0,8);
     // Añadimos los 4 nervios
     nervios.add(nervio1);
@@ -218,12 +293,21 @@ function loadScene(){
     nervios.add(nervio4);
     // Trasladamos todas las conexiones hacia arriba (eje y 120 + 80/2)
     nervios.position.set(0,40,0);
+    // Añadimos sombra a los 4 nervios
+    nervio1.castShadow = true;
+    nervio2.castShadow = true;
+    nervio3.castShadow = true;
+    nervio4.castShadow = true;
+    nervio1.receiveShadow = true;
+    nervio2.receiveShadow = true;
+    nervio3.receiveShadow = true;
+    nervio4.receiveShadow = true;
     // Añadimos los nervios al antebrazo
     antebrazo.add(nervios)
 
     // Colocamos el antebrazo en la posición correcta
     antebrazo.position.set(0,120,0);
-
+    
     // Creación de la pinza
     var pinzaGeo = new THREE.Geometry();
     var coordenadasPinza = [
@@ -293,8 +377,27 @@ function loadScene(){
     pinzaDer.rotation.x = Math.PI / 2;
     pinzaDer.position.set(2,-15,-10);
 
+    // Añadimos las sombras
+    pinzaDer.castShadow = true;
+    pinzaDer.receiveShadow = true;
+
     // Añadimos el robot a la escena
     scene.add(robot);
+
+    // Habitacion
+	var shader = THREE.ShaderLib.cube;
+	shader.uniforms.tCube.value = txmapaEntorno;
+
+	var matparedes = new THREE.ShaderMaterial({
+		fragmentShader: shader.fragmentShader,
+		vertexShader: shader.vertexShader,
+		uniforms: shader.uniforms,
+		//dephtWrite: false,
+		side: THREE.BackSide
+	});
+
+	var habitacion = new THREE.Mesh( new THREE.CubeGeometry(2000,2000,2000),matparedes);
+	scene.add(habitacion);
 
 }
 

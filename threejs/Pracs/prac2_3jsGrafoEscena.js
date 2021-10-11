@@ -107,105 +107,74 @@ function init(){
     // Colocamos el antebrazo en la posición correcta
     antebrazo.position.set(0,120,0);
 
-    // Creación de la pinza izquierda
-    var pinzaIzqGeo = new THREE.Geometry();
-    var coordenadasPinzaIzq = [
-        0,0,0,
-        0,20,0,
-        0,20,-4,
-        0,0,-4,
-        19,0,0,
-        19,20,-4,
-        19,20,-4,
-        19,0,-4,
-        38,3,-2,
-        38,17,-2,
-        38,17,-4,
-        38,3,-4
+    // Creación de la pinza
+    var pinzaGeo = new THREE.Geometry();
+    var coordenadasPinza = [
+       0,0,0,
+       0,0,4,
+       0,20,4,
+       0,20,0,
+       19,0,0,
+       19,0,4,
+       19,20,4,
+       19,20,0,
+       38,4,0,
+       38,4,2,
+       38,16,2,
+       38,16,0
     ];
 
-    var indicesPinzaIzq = [
-        0,4,5,
-        4,5,1,
-        0,3,1,
-        1,5,2,
-        3,6,2,
-        4,7,3,
-        5,9,6,
-        6,7,10,
-        8,11,7,
-        4,8,9,
-        8,11,10,
-        9,10,6
-    ];
-
-    // Construye vertices y los inserta en la pinzaIzq
-    for(var i=0; i<coordenadasPinzaIzq.length; i+=3) {
-        var vertice = new THREE.Vector3(coordenadasPinzaIzq[i], coordenadasPinzaIzq[i+1], coordenadasPinzaIzq[i+2]);
-        pinzaIzqGeo.vertices.push(vertice);
-    }
-    
-    // Construye caras y las inserta en la pinzaIzq
-    for(var i=0; i<indicesPinzaIzq.length; i+=3){
-        var triangulo = new THREE.Face3(indicesPinzaIzq[i],indicesPinzaIzq[i+1],indicesPinzaIzq[i+2]);
-        pinzaIzqGeo.faces.push(triangulo);
-    }
-
-    // Creamos el mesh y lo añadimos a la mano
-    var pinzaIzq = new THREE.Mesh(pinzaIzqGeo, material);
-    mano.add(pinzaIzq);
-    pinzaIzq.rotation.x = Math.PI/2;
-    pinzaIzq.position.set(2,16,-12);
-
-    
-    // Creación de la pinza derecha
-    var pinzaDerGeo = new THREE.Geometry();
-    var coordenadasPinzaDer = [
-        0,0,0,
-        0,20,0,
-        0,20,-4,
-        0,0,-4,
-        19,0,0,
-        19,20,0,
-        19,20,-4,
-        19,0,-4,
-        38,3,0,
-        38,17,0,
-        38,17,-2,
-        38,3,-2
-];
-
-    var indicesPinzaDer = [
-        0,4,1,
-        1,3,2,
-        0,7,3,
+    var indicesPinza = [
+        0,1,2,
+        0,2,3,
         1,5,6,
-        2,7,6,
-        4,8,5,
-        4,11,7,
+        1,6,2,
+        2,6,3,
+        6,7,3,
+        4,0,7,
+        0,3,7,
+        0,4,5,
+        0,5,1,
         5,9,10,
-        8,11,10,
-        8,9,10,
-        6,11,10
+        5,10,6,
+        10,11,7,
+        10,7,6,
+        8,4,11,
+        4,7,11,
+        4,8,9,
+        4,9,5,
+        9,8,11,
+        9,11,10
     ];
 
-    // Construye vertices y los inserta en la pinzaDer
-    for(var i=0; i<coordenadasPinzaDer.length; i+=3) {
-        var vertice = new THREE.Vector3(coordenadasPinzaDer[i], coordenadasPinzaDer[i+1], coordenadasPinzaDer[i+2]);
-        pinzaDerGeo.vertices.push(vertice);
+    // Construye vertices y los inserta en la pinza
+    for(var i=0; i<coordenadasPinza.length; i+=3) {
+        var vertice = new THREE.Vector3(coordenadasPinza[i], coordenadasPinza[i+1], coordenadasPinza[i+2]);
+        pinzaGeo.vertices.push(vertice);
     }
 
     // Construye caras y las inserta en la pinzaDer
-    for(var i=0; i<indicesPinzaDer.length; i+=3){
-        var triangulo = new THREE.Face3(indicesPinzaDer[i],indicesPinzaDer[i+1],indicesPinzaDer[i+2]);
-        pinzaDerGeo.faces.push(triangulo);
+    for(var i=0; i<indicesPinza.length; i+=3){
+        var triangulo = new THREE.Face3(indicesPinza[i],indicesPinza[i+1],indicesPinza[i+2]);
+        pinzaGeo.faces.push(triangulo);
     }
 
+    // Creamos los vectores normales
+    pinzaGeo.computeVertexNormals();
+
     // Creamos el mesh y lo añadimos al robot
-    var pinzaDer = new THREE.Mesh(pinzaDerGeo, material);
+    var pinzaIzq = new THREE.Mesh(pinzaGeo, matbase);
+    var pinzaDer = new THREE.Mesh(pinzaGeo, matbase);
+    mano.add(pinzaIzq);
     mano.add(pinzaDer);
-    pinzaDer.rotation.x = Math.PI/2;
-    pinzaDer.position.set(2,-20,-12);
+    
+    // Colocamos la pinza izquierda
+    pinzaIzq.rotation.x = -Math.PI / 2;
+    pinzaIzq.position.set(2,15,10);
+    
+    // Colocamos la pinza derecha
+    pinzaDer.rotation.x = Math.PI / 2;
+    pinzaDer.position.set(2,-15,-10);
 
     // Añadimos el robot a la escena
     scene.add(robot);
