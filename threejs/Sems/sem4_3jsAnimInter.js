@@ -165,7 +165,7 @@ function startAnimation(){
     movtIzq.start();
 
     var giro = new TWEEN.Tween(eje.rotation)
-                            .to({x:0, y:Math.PI*2, z:0},10000);
+                            .to({x:Math.PI, y:Math.PI*2, z:0},10000);
     giro.repeat(Infinity);
     giro.start();
 }

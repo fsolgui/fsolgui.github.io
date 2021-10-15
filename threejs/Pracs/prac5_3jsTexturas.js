@@ -121,7 +121,7 @@ function initCameras(ar){
 
     var luzPuntual = new THREE.PointLight(0xFFFFFF,0.5);
     luzPuntual.position.set(-100,200,-100);
-    //scene.add(luzPuntual);
+    scene.add(luzPuntual);
 
     var luzFocal = new THREE.SpotLight(0xFFFFFF,1);
     luzFocal.position.set(400,500,400);

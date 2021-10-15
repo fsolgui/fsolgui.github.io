@@ -4,8 +4,19 @@ El proyecto incluye material extraído del proyecto público [Three.js](http://t
 
 Para más información sobre su uso y alcance consultar la [wiki](https://github.com/RobVivo/RobVivo.github.io/wiki/INSTRUCCIONES-B%C3%81SICAS)
 
+
 Se han usado los siguientes modelos en el proyecto final:
-"Laptop Icon" (https://skfb.ly/6VMtC) by Simon.Keating is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
-"Computer Monitor Lowpoly Model" (https://skfb.ly/6WPqT) by Marco Zakaria is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+https://www.cgtrader.com/free-3d-models/furniture/bed/bed-ver-1
 
+
+Se han usado las siguiente texturas y imágenes en el proyecto final:
+
+Photo by <a href="https://unsplash.com/@mhmcmurrin?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Maddison McMurrin</a> on <a href="https://unsplash.com/s/photos/sky?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+https://freestocktextures.com/texture/floor-wood-oak,765.html
+
+https://freestocktextures.com/texture/delicate-gray-plaster,1301.html
+
+
+  
