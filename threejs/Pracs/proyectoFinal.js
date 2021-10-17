@@ -3,17 +3,29 @@
 // Objetos estándar
 var renderer, scene;
 
-// Objetos de escena con animación
-var barraPersianaIzq, barraPersianaDer;
-var botonPersianaIzqClicked, botonPersianaDerClicked = false;
-var cajaPantalla;
-var planoPantalla;
-var pantallaClicked = 0;
-var fin = false;
+/// Objetos de escena con animación
+
+// Animación de apertura de las ventanas
+var barraPersianaIzq, barraPersianaDer; // Objetos
+var botonPersianaIzqClicked, botonPersianaDerClicked = false; // Saber si ha sido clickado ya
+
+// Interacción con el monitor
+var cajaPantalla; // Se interactua con la caja
+var planoPantalla; // Se muestra en la pantalla
+var pantallaClicked = 0; // Control de clicks sobre la pantalla
+
+// Variables para videos
+
+var video, videoImageContext, videotexture;
+var posterRogue, posterConan, posterCait, posterViudaNegra;
+var matVideoRogeOne, matVideoConan, matVideoCait, matVideoViudaNegra;
 
     
 // Path principal de los arcvhivos
 path = "../filesPRFinal/"
+
+// Controlar fin de juego
+fin=false;
 
 // Cámaras
 var camX, camMinusX, camZ, camMinusZ, camOrtographic
@@ -162,6 +174,23 @@ function processZoomInCamera(event){
                         break;
                     case cajaPantalla:
                         processScreen();
+                        break;
+                    case posterRogue:
+                        matVideo = createVideoMaterial(path+"videos/rogueone.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterConan:
+                        matVideo = createVideoMaterial(path+"videos/detectiveconan.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterCait:
+                        matVideo = createVideoMaterial(path+"videos/leagueoflegends.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterViudaNegra:
+                        matVideo = createVideoMaterial(path+"videos/viudanegra.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
                 }
             }else{
                 // Marcamos que vamos a hacer zoom
@@ -184,6 +213,24 @@ function processZoomInCamera(event){
                         break;
                     case cajaPantalla:
                         processScreen();
+                        break;
+                    case posterRogue:
+                        matVideo = createVideoMaterial(path+"videos/rogueone.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterConan:
+                        matVideo = createVideoMaterial(path+"videos/detectiveconan.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterCait:
+                        matVideo = createVideoMaterial(path+"videos/leagueoflegends.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterViudaNegra:
+                        matVideo = createVideoMaterial(path+"videos/viudanegra.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+
                 }
             }else{
                 // Marcamos que vamos a hacer zoom
@@ -206,6 +253,23 @@ function processZoomInCamera(event){
                         break;
                     case cajaPantalla:
                         processScreen();
+                        break;
+                    case posterRogue:
+                        matVideo = createVideoMaterial(path+"videos/rogueone.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterConan:
+                        matVideo = createVideoMaterial(path+"videos/detectiveconan.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterCait:
+                        matVideo = createVideoMaterial(path+"videos/leagueoflegends.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterViudaNegra:
+                        matVideo = createVideoMaterial(path+"videos/viudanegra.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
                 }
             }else{
                 // Marcamos que vamos a hacer zoom
@@ -228,6 +292,23 @@ function processZoomInCamera(event){
                         break;
                     case cajaPantalla:
                         processScreen();
+                        break;
+                    case posterRogue:
+                        matVideo = createVideoMaterial(path+"videos/rogueone.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterConan:
+                        matVideo = createVideoMaterial(path+"videos/detectiveconan.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterCait:
+                        matVideo = createVideoMaterial(path+"videos/leagueoflegends.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
+                    case posterViudaNegra:
+                        matVideo = createVideoMaterial(path+"videos/viudanegra.mp4");
+                        planoPantalla.material = matVideo;
+                        break;
                 }
             }else{
                 // Marcamos que vamos a hacer zoom
@@ -262,13 +343,16 @@ function processScreen(){
         var matScreenInit = new THREE.MeshLambertMaterial({color:'white',map:txScreenInit});
         planoPantalla.material = matScreenInit;
         pantallaClicked = pantallaClicked + 1;
-    }else if(pantallaClicked == 1){
+    }else if(fin){
+        var txScreenFin = new THREE.TextureLoader().load(path+"textures/win.jpeg");
+        var matScreenFin = new THREE.MeshLambertMaterial({color:'white',map:txScreenFin});
+        planoPantalla.material = matScreenFin;
+    }else{
         var txScreenNotepad = new THREE.TextureLoader().load(path+"textures/screenNotepad.png");
         var matScreenNotepad = new THREE.MeshLambertMaterial({color:'white',map:txScreenNotepad});
         planoPantalla.material = matScreenNotepad;
         pantallaClicked = pantallaClicked + 1;
     }
-    
 }
 
 function processZoomOutCamera(event){
@@ -536,7 +620,7 @@ function loadScene(){
 
 
     // Creamos la pared -z
-    var geometriaPared = new THREE.PlaneGeometry(400,120,100,100);
+    var geometriaPared = new THREE.PlaneGeometry(400,120,200,200);
     var pared1 = new THREE.Mesh(geometriaPared, matPared);
     pared1.rotation.x = Math.PI;
     pared1.position.set(0,60,200);
@@ -656,7 +740,7 @@ function loadScene(){
     // Creamos la caja
     var geoCajaPantalla = new THREE.BoxGeometry(34,20,2);
     cajaPantalla = new THREE.Mesh(geoCajaPantalla, matInterac);
-    cajaPantalla.position.set(0,13,1);
+    cajaPantalla.position.set(0,13,1.5);
     cajaPantalla.castShadow = true;
     //cajaPantalla.receiveShadow = true;
     stand.add(cajaPantalla);
@@ -801,7 +885,7 @@ function loadScene(){
     // Poster rogue one pared x
     var txRogueOne = new THREE.TextureLoader().load(path+"textures/rogueone.jpeg");
     var matRogueOne = new THREE.MeshLambertMaterial({color:'white',map:txRogueOne});
-    var posterRogue = new THREE.Mesh(geometriaPosterVertical,matRogueOne);
+    posterRogue = new THREE.Mesh(geometriaPosterVertical,matRogueOne);
     posterRogue.rotation.y = -Math.PI / 2;
     posterRogue.position.set(199.7,70,-50);
     scene.add(posterRogue);
@@ -809,14 +893,14 @@ function loadScene(){
     // Poster Detective Conan
     var txConan = new THREE.TextureLoader().load(path+"textures/detectiveconan.jpg");
     var matConan = new THREE.MeshLambertMaterial({color:'white',map:txConan});
-    var posterConan = new THREE.Mesh(geometriaPosterVertical,matConan);
+    posterConan = new THREE.Mesh(geometriaPosterVertical,matConan);
     posterConan.position.set(0,0,2.1);
     persianaIzq.add(posterConan);
 
     // Poster Caitlyn pared z
     var txCait = new THREE.TextureLoader().load(path+"textures/caitlyn.jpg");
     var matCait = new THREE.MeshLambertMaterial({color:'white',map:txCait});
-    var posterCait = new THREE.Mesh(geometriaPosterHorizontal,matCait);
+    posterCait = new THREE.Mesh(geometriaPosterHorizontal,matCait);
     posterCait.rotation.y = Math.PI / 2;
     posterCait.position.set(-199.7,70,70);
     scene.add(posterCait);
@@ -824,7 +908,7 @@ function loadScene(){
     // Poster Viuda negra
     var txViudaNegra = new THREE.TextureLoader().load(path+"textures/viudanegra.jpg");
     var matViudaNegra = new THREE.MeshLambertMaterial({color:'white',map:txViudaNegra});
-    var posterViudaNegra = new THREE.Mesh(geometriaPosterVertical,matViudaNegra);
+    posterViudaNegra = new THREE.Mesh(geometriaPosterVertical,matViudaNegra);
     posterViudaNegra.rotation.y = Math.PI;
     posterViudaNegra.position.set(-30,70,199.7);
     scene.add(posterViudaNegra);
@@ -833,7 +917,7 @@ function loadScene(){
 
     /// Cargamos la cama ///
     
-    loader = new THREE.GLTFLoader().load(path+"/models/bed.glb",
+    loader = new THREE.GLTFLoader().load(path+"models/bed.glb",
                                         function(gltf){
                                             gltf.scene.traverse(function(node){
                                                 if(node.isMesh){node.castShadow = true;}
@@ -843,13 +927,10 @@ function loadScene(){
                                             gltf.scene.position.set(-132,0,-80);
                                             scene.add(gltf.scene);
                                         });
-
-    
-                                        
                                                                       
     /// Creamos los objetos con fuentes de luz ///
-
-
+    matVacio = createVideoMaterial(path+"videos/viudanegra.mp4");
+    
     // Creamos la lampara pricipal de la habitación //
     var lamparaPr = new THREE.Object3D();
 
@@ -879,8 +960,44 @@ function loadScene(){
 
 }
 
+function createVideoMaterial(path){
+    /// Crear el elemento de video en el documento
+	video = document.createElement('video');
+	video.src = path;
+	video.muted = "muted";
+	video.load();
+	video.play();
+
+	/// Asociar la imagen de video a un canvas 2D
+	videoImage = document.createElement('canvas');
+	videoImage.width = 1080;
+	videoImage.height = 720;
+
+	/// Obtengo un contexto para ese canvas
+	videoImageContext = videoImage.getContext('2d');
+	videoImageContext.fillStyle = '#0000FF';
+	videoImageContext.fillRect(0,0,videoImage.width,videoImage.height);
+
+	/// Crear la textura
+	videotexture = new THREE.Texture(videoImage);
+	videotexture.minFilter = THREE.LinearFilter;
+	videotexture.magFilter = THREE.LinearFilter;
+
+	/// Crear el material con la textura
+	var moviematerial = new THREE.MeshBasicMaterial({map:videotexture,
+	                                                 side: THREE.DoubleSide});
+
+    return moviematerial
+}
+
 function update(){  
     TWEEN.update();
+
+    if(video.readyState === video.HAVE_ENOUGH_DATA){
+		videoImageContext.drawImage(video,0,0);
+		if(videotexture) videotexture.needsUpdate = true;
+	}
+
 }
 
 function render(){
@@ -903,7 +1020,7 @@ function render(){
         var txScreenFin = new THREE.TextureLoader().load(path+"textures/win.jpeg");
         var matScreenFin = new THREE.MeshLambertMaterial({color:'white',map:txScreenFin});
         planoPantalla.material = matScreenFin;
-        fin = true
+        fin = true;
     }
 
     // Leer width and height
