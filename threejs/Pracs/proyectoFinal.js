@@ -558,7 +558,7 @@ function animationPersianaDer(){
 function loadScene(){
 
     // Añadimos los ejes auxiliares
-    scene.add(new THREE.AxesHelper(500))
+    //scene.add(new THREE.AxesHelper(500))
 
 
 
