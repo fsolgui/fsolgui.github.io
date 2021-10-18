@@ -900,7 +900,7 @@ function loadScene(){
     // Poster Caitlyn pared z
     var txCait = new THREE.TextureLoader().load(path+"textures/caitlyn.jpg");
     var matCait = new THREE.MeshLambertMaterial({color:'white',map:txCait});
-    posterCait = new THREE.Mesh(geometriaPosterHorizontal,matCait);
+    posterCait = new THREE.Mesh(geometriaPosterVertical,matCait);
     posterCait.rotation.y = Math.PI / 2;
     posterCait.position.set(-30,70,199.7);
     scene.add(posterCait);
@@ -908,7 +908,7 @@ function loadScene(){
     // Poster Viuda negra
     var txViudaNegra = new THREE.TextureLoader().load(path+"textures/viudanegra.jpg");
     var matViudaNegra = new THREE.MeshLambertMaterial({color:'white',map:txViudaNegra});
-    posterViudaNegra = new THREE.Mesh(geometriaPosterVertical,matViudaNegra);
+    posterViudaNegra = new THREE.Mesh(geometriaPosterHorizontal,matViudaNegra);
     posterViudaNegra.rotation.y = Math.PI;
     posterViudaNegra.position.set(-199.7,70,70);
     scene.add(posterViudaNegra);
@@ -928,8 +928,11 @@ function loadScene(){
                                             scene.add(gltf.scene);
                                         });
                                                                       
-    /// Creamos los objetos con fuentes de luz ///
+    // Cargamos un video por primera vez para evitar fallos de codigo
     matVacio = createVideoMaterial(path+"videos/viudanegra.mp4");
+    
+    /// Creamos los objetos con fuentes de luz ///
+    
     
     // Creamos la lampara pricipal de la habitación //
     var lamparaPr = new THREE.Object3D();
