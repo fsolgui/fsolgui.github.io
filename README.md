@@ -28,3 +28,5 @@ En esa misma interfaz gráfica se puede jugar con la cámara mostrada en cada un
 Para interactuar con las cámaras, se hace zoom (con el valor del slider) sobre el punto de la escena que ha sido seleccionado haciendo doble click. Volviendo a hacer doble click sobre una vista con zoom, se puede interactuar con los posters y los objetos rojos.
 
 Suerte decifrando el código :)
+
+hint: el orden de los posters empieza por el más cercano al ordenador y haciendo que el vector normal apunte hacia el eje y positivo

@@ -902,7 +902,7 @@ function loadScene(){
     var matCait = new THREE.MeshLambertMaterial({color:'white',map:txCait});
     posterCait = new THREE.Mesh(geometriaPosterHorizontal,matCait);
     posterCait.rotation.y = Math.PI / 2;
-    posterCait.position.set(-199.7,70,70);
+    posterCait.position.set(-30,70,199.7);
     scene.add(posterCait);
 
     // Poster Viuda negra
@@ -910,7 +910,7 @@ function loadScene(){
     var matViudaNegra = new THREE.MeshLambertMaterial({color:'white',map:txViudaNegra});
     posterViudaNegra = new THREE.Mesh(geometriaPosterVertical,matViudaNegra);
     posterViudaNegra.rotation.y = Math.PI;
-    posterViudaNegra.position.set(-30,70,199.7);
+    posterViudaNegra.position.set(-199.7,70,70);
     scene.add(posterViudaNegra);
 
 
@@ -1016,7 +1016,7 @@ function render(){
 
     // Leer contraseña
     contraseña = effectController.contraseña;
-    if(!fin && contraseña == "2205gtvy"){
+    if(!fin && contraseña == "2205gtve"){
         var txScreenFin = new THREE.TextureLoader().load(path+"textures/win.jpeg");
         var matScreenFin = new THREE.MeshLambertMaterial({color:'white',map:txScreenFin});
         planoPantalla.material = matScreenFin;
