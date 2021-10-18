@@ -900,16 +900,16 @@ function loadScene(){
     // Poster Caitlyn pared z
     var txCait = new THREE.TextureLoader().load(path+"textures/caitlyn.jpg");
     var matCait = new THREE.MeshLambertMaterial({color:'white',map:txCait});
-    posterCait = new THREE.Mesh(geometriaPosterVertical,matCait);
-    posterCait.rotation.y = Math.PI / 2;
+    posterCait = new THREE.Mesh(geometriaPosterHorizontal,matCait);
+    posterCait.rotation.y = Math.PI;
     posterCait.position.set(-30,70,199.7);
     scene.add(posterCait);
 
     // Poster Viuda negra
     var txViudaNegra = new THREE.TextureLoader().load(path+"textures/viudanegra.jpg");
     var matViudaNegra = new THREE.MeshLambertMaterial({color:'white',map:txViudaNegra});
-    posterViudaNegra = new THREE.Mesh(geometriaPosterHorizontal,matViudaNegra);
-    posterViudaNegra.rotation.y = Math.PI;
+    posterViudaNegra = new THREE.Mesh(geometriaPosterVertical,matViudaNegra);
+    posterViudaNegra.rotation.y = Math.PI/2;
     posterViudaNegra.position.set(-199.7,70,70);
     scene.add(posterViudaNegra);
 
